@@ -9,8 +9,8 @@ import Fasilitas from "./pages/Fasilitas";
 import Kegiatan from "./pages/Kegiatan";
 import Akademik from "./pages/Akademik";
 import Kontak from "./pages/Kontak";
-import Berita from "./pages/Berita";
-import DetailBerita from "./pages/DetailBerita";
+// import Berita from "./pages/Berita";
+// import DetailBerita from "./pages/DetailBerita";
 import PPDB from "./pages/PPDB";
 import Download from "./pages/Download";
 import { Routes, Route } from "react-router-dom";
@@ -34,8 +34,8 @@ function App() {
           <Route path="/kegiatan" element={<Kegiatan />} />
           <Route path="/akademik" element={<Akademik />} />
           <Route path="/kontak" element={<Kontak />} />
-          <Route path="/berita" element={<Berita />} />
-          <Route path="/berita/:slug" element={<DetailBerita />} />
+          {/* <Route path="/berita" element={<Berita />} /> */}
+          {/* <Route path="/berita/:slug" element={<DetailBerita />} /> */}
           <Route path="/ppdb" element={<PPDB />} />
           <Route path="/download" element={<Download />} />
         </Routes>

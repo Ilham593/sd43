@@ -4,9 +4,9 @@ import PrincipalSection from "../components/PrincipalSection";
 import Programs from "../components/Programs";
 import GalleryPreview from "../components/GalleryPreview";
 import CTASection from "../components/CTASection";
-import NewsPreview from "../components/NewsPreview";
+// import NewsPreview from "../components/NewsPreview";
 import PrestasiSection from "../components/PrestasiSection";
-import TestimoniSection from "../components/TestimoniSection";
+// import TestimoniSection from "../components/TestimoniSection";
 
 export default function Home() {
   return (
@@ -16,9 +16,9 @@ export default function Home() {
       <PrincipalSection />
       <Programs />
       <GalleryPreview />
-      <NewsPreview />
+      {/* <NewsPreview /> */}
       <PrestasiSection />
-      <TestimoniSection />
+      {/* <TestimoniSection /> */}
       <CTASection />
     </>
   );
