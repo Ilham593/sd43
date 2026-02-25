@@ -1,56 +1,89 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import gambar from "../assets/images/test.jpg";
 
-export default function Kegiatan() {
-  const kegiatan = [
+export default function GalleryPreview() {
+  const images = [
     {
       id: 1,
-      title: "Upacara Bendera",
-      description: "Kegiatan rutin setiap hari Senin untuk menanamkan disiplin dan nasionalisme.",
+      src: gambar,
+      title: "Kegiatan Belajar Mengajar",
     },
     {
       id: 2,
-      title: "Ekstrakurikuler Pramuka",
-      description: "Melatih kemandirian, kepemimpinan, dan kerja sama siswa.",
+      src: gambar,
+      title: "Upacara Bendera",
     },
     {
       id: 3,
-      title: "Lomba Antar Kelas",
-      description: "Ajang kompetisi untuk meningkatkan semangat belajar dan kreativitas.",
+      src: gambar,
+      title: "Lomba Siswa",
+    },
+    {
+      id: 4,
+      src: gambar,
+      title: "Kegiatan Ekstrakurikuler",
+    },
+    {
+      id: 5,
+      src: gambar,
+      title: "Perpustakaan Sekolah",
+    },
+    {
+      id: 6,
+      src: gambar,
+      title: "Class Meeting",
     },
   ];
 
   return (
-    <section className="min-h-screen py-20 bg-gray-50">
+    <section className="py-20 bg-white">
       <div className="max-w-6xl px-4 mx-auto">
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
           className="mb-12 text-center"
         >
-          <h1 className="text-3xl font-bold text-blue-900 md:text-4xl">
-            Kegiatan Sekolah
-          </h1>
+          <h2 className="text-3xl font-bold text-blue-900 md:text-4xl">
+            Galeri Kegiatan
+          </h2>
           <p className="mt-4 text-gray-600">
-            Berbagai aktivitas dan kegiatan siswa di SD Negeri 43 Kota Bengkulu
+            Dokumentasi kegiatan dan aktivitas siswa di SD Negeri 43 Kota Bengkulu
           </p>
         </motion.div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {kegiatan.map((item) => (
-            <div
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+          {images.map((item) => (
+            <motion.div
               key={item.id}
-              className="p-6 transition bg-white shadow-md rounded-xl hover:shadow-lg"
+              whileHover={{ scale: 1.03 }}
+              className="relative overflow-hidden shadow-lg rounded-xl group"
             >
-              <h3 className="text-xl font-semibold text-blue-900">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-sm text-gray-600">
-                {item.description}
-              </p>
-            </div>
+              <img
+                src={item.src}
+                alt={item.title}
+                className="object-cover w-full h-64"
+              />
+
+              <div className="absolute inset-0 flex items-center justify-center transition opacity-0 bg-blue-900/70 group-hover:opacity-100">
+                <p className="px-4 font-semibold text-center text-white">
+                  {item.title}
+                </p>
+              </div>
+            </motion.div>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            to="/kegiatan"
+            className="px-6 py-3 font-semibold text-white transition bg-blue-900 rounded-lg hover:bg-blue-800"
+          >
+            Lihat Semua Kegiatan
+          </Link>
         </div>
 
       </div>

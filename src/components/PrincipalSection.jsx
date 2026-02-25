@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import gambar from "../assets/images/test.jpg";
+
 export default function PrincipalSection() {
   return (
     <section className="py-20 bg-white">
@@ -15,7 +16,7 @@ export default function PrincipalSection() {
           <div className="flex justify-center">
             <img
               src={gambar}
-              alt="Kepala Sekolah"
+              alt="Kepala Sekolah SD Negeri 43 Kota Bengkulu"
               className="object-cover shadow-xl rounded-2xl w-80"
             />
           </div>
@@ -27,28 +28,33 @@ export default function PrincipalSection() {
             </h2>
 
             <p className="mt-6 leading-relaxed text-gray-600">
+              Assalamu’alaikum warahmatullahi wabarakatuh.
               Selamat datang di website resmi SD Negeri 43 Kota Bengkulu.
-              Kami berkomitmen untuk memberikan pendidikan yang berkualitas,
-              membangun karakter yang kuat, serta menciptakan lingkungan
-              belajar yang aman dan nyaman bagi seluruh peserta didik.
+              Website ini kami hadirkan sebagai media informasi dan komunikasi
+              antara sekolah dengan orang tua, peserta didik, serta masyarakat.
             </p>
 
             <p className="mt-4 leading-relaxed text-gray-600">
-              Dengan dukungan tenaga pendidik yang profesional dan program
-              unggulan yang berorientasi pada pengembangan potensi siswa,
-              kami berharap dapat mencetak generasi yang cerdas, berakhlak
-              mulia, dan siap menghadapi tantangan masa depan.
+              SD Negeri 43 Kota Bengkulu yang berdiri sejak tahun 1982
+              berkomitmen untuk memberikan layanan pendidikan dasar yang
+              berkualitas, berkarakter, serta mendukung pengembangan potensi
+              akademik dan non-akademik siswa. Dengan dukungan 15 tenaga
+              pendidik dan kependidikan serta 7 rombongan belajar, kami terus
+              berupaya menciptakan lingkungan belajar yang aman, nyaman,
+              dan inspiratif.
+            </p>
+
+            <p className="mt-4 leading-relaxed text-gray-600">
+              Semoga website ini dapat memberikan informasi yang bermanfaat
+              dan menjadi jembatan komunikasi yang baik antara sekolah dan
+              masyarakat.
             </p>
 
             <div className="pl-4 mt-6 italic font-semibold text-blue-900 border-l-4 border-yellow-400">
-              "Pendidikan adalah fondasi utama dalam membangun masa depan bangsa."
-            </div>
-
-            <p className="mt-6 font-semibold text-blue-900">
               Kepala Sekolah  
               <br />
               SD Negeri 43 Kota Bengkulu
-            </p>
+            </div>
           </div>
         </motion.div>
       </div>

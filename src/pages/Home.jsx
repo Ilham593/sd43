@@ -5,7 +5,7 @@ import Programs from "../components/Programs";
 import GalleryPreview from "../components/GalleryPreview";
 import CTASection from "../components/CTASection";
 // import NewsPreview from "../components/NewsPreview";
-import PrestasiSection from "../components/PrestasiSection";
+// import PrestasiSection from "../components/PrestasiSection";
 // import TestimoniSection from "../components/TestimoniSection";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
       <Programs />
       <GalleryPreview />
       {/* <NewsPreview /> */}
-      <PrestasiSection />
+      {/* <PrestasiSection /> */}
       {/* <TestimoniSection /> */}
       <CTASection />
     </>

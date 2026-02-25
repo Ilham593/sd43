@@ -1,29 +1,30 @@
 import { motion } from "framer-motion";
 import gambar from "../assets/images/test.jpg";
+
 export default function Fasilitas() {
   const facilities = [
     {
       id: 1,
-      title: "Ruang Kelas Nyaman",
-      desc: "Ruang kelas yang bersih, nyaman, dan dilengkapi fasilitas pendukung pembelajaran.",
+      title: "Ruang Kelas",
+      desc: "Tersedia 7 ruang kelas yang digunakan untuk kegiatan pembelajaran dari kelas 1 hingga kelas 6.",
       image: gambar,
     },
     {
       id: 2,
-      title: "Perpustakaan",
-      desc: "Perpustakaan sekolah dengan koleksi buku yang mendukung program literasi siswa.",
+      title: "Perpustakaan Sekolah",
+      desc: "Perpustakaan sekolah mendukung program literasi dengan koleksi buku bacaan dan referensi pembelajaran.",
       image: gambar,
     },
     {
       id: 3,
-      title: "Lapangan Olahraga",
-      desc: "Fasilitas lapangan untuk mendukung kegiatan olahraga dan aktivitas fisik siswa.",
+      title: "Lapangan Sekolah",
+      desc: "Lapangan sekolah digunakan untuk kegiatan olahraga, upacara, dan aktivitas luar ruangan.",
       image: gambar,
     },
     {
       id: 4,
       title: "Ruang UKS",
-      desc: "Unit Kesehatan Sekolah untuk menjaga kesehatan dan keselamatan siswa.",
+      desc: "Ruang UKS tersedia untuk memberikan pelayanan kesehatan dasar bagi peserta didik.",
       image: gambar,
     },
   ];
@@ -31,11 +32,10 @@ export default function Fasilitas() {
   return (
     <div className="bg-gray-50">
 
-      {/* Header */}
       <section className="py-16 text-center text-white bg-blue-900">
         <h1 className="text-4xl font-bold">Fasilitas Sekolah</h1>
         <p className="mt-4 text-gray-200">
-          Sarana dan prasarana pendukung pembelajaran di SD Negeri 43 Kota Bengkulu
+          Sarana dan prasarana SD Negeri 43 Kota Bengkulu
         </p>
       </section>
 

@@ -1,0 +1,25 @@
+1.logo sd
+2.jumlah siswa
+3. jumlah guru
+4. ruang kelas
+5. ada program apa saja?
+6. foto kepala sekolah
+7. kata sambutan kepala sekolah
+8. galeri kegiatan(dokuentasi kegiatan
+9. prestasi sekolah( contoh menang lomba)
+10. sejarah singkat
+11. visi dan misi dan tujuan sekolah
+12. status negeri atau tidak
+13. jumlah siswa
+14. akreditasi
+15. npsn
+16. kecamatan
+17. foto semua guru( jabatan guru apa) dan nip
+18. kurikulum
+19. program pembelajaran
+20. eskul
+21. kegitan sekolah ada apa saja
+22. foto fasilitas sekolah
+23. file download pendaftaran / kalender / surat edaran semester
+24. ppdb ( file download formulir pendaftaran
+25. almat sekolah / no telp / email / waktu masuko

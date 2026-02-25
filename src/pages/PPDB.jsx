@@ -4,7 +4,6 @@ export default function PPDB() {
   return (
     <div className="bg-gray-50">
 
-      {/* Header */}
       <section className="py-16 text-center text-white bg-blue-900">
         <h1 className="text-4xl font-bold">
           PPDB {ppdb.tahunAjaran}
@@ -16,7 +15,6 @@ export default function PPDB() {
 
       <div className="max-w-6xl px-4 py-20 mx-auto space-y-16">
 
-        {/* Info Utama */}
         <div className="grid gap-8 text-center md:grid-cols-3">
           <div className="p-8 bg-white shadow-md rounded-2xl">
             <h3 className="text-lg font-semibold text-blue-900">
@@ -46,7 +44,6 @@ export default function PPDB() {
           </div>
         </div>
 
-        {/* Syarat */}
         <div>
           <h2 className="mb-6 text-2xl font-bold text-blue-900">
             Persyaratan
@@ -60,7 +57,6 @@ export default function PPDB() {
           </ul>
         </div>
 
-        {/* Alur */}
         <div>
           <h2 className="mb-6 text-2xl font-bold text-blue-900">
             Alur Pendaftaran
@@ -74,7 +70,6 @@ export default function PPDB() {
           </ol>
         </div>
 
-        {/* CTA */}
         <div className="text-center">
           <a
             href="#"
