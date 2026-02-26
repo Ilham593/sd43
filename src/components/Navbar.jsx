@@ -33,22 +33,12 @@ export default function Navbar() {
           <NavLink to="/guru" className={desktopLinkClass}>
             Guru
           </NavLink>
-
-          {/* <NavLink to="/akademik" className={desktopLinkClass}>
-            Akademik
-          </NavLink> */}
           <NavLink to="/kegiatan" className={desktopLinkClass}>
             Kegiatan
           </NavLink>
           <NavLink to="/fasilitas" className={desktopLinkClass}>
             Fasilitas
           </NavLink>
-          {/* <NavLink to="/berita" className={desktopLinkClass}>
-            Berita
-          </NavLink> */}
-          {/* <NavLink to="/download" className={desktopLinkClass}>
-            Download
-          </NavLink> */}
           <NavLink to="/ppdb" className={desktopLinkClass}>
             PPDB
           </NavLink>
@@ -78,13 +68,6 @@ export default function Navbar() {
           <NavLink to="/guru" className={mobileLinkClass} onClick={closeMenu}>
             Guru
           </NavLink>
-          {/* <NavLink
-            to="/akademik"
-            className={mobileLinkClass}
-            onClick={closeMenu}
-          >
-            Akademik
-          </NavLink> */}
           <NavLink
             to="/kegiatan"
             className={mobileLinkClass}
@@ -99,16 +82,6 @@ export default function Navbar() {
           >
             Fasilitas
           </NavLink>
-          {/* <NavLink to="/berita" className={mobileLinkClass} onClick={closeMenu}>
-            Berita
-          </NavLink> */}
-          {/* <NavLink
-            to="/download"
-            className={mobileLinkClass}
-            onClick={closeMenu}
-          >
-            Download
-          </NavLink> */}
           <NavLink to="/ppdb" className={mobileLinkClass} onClick={closeMenu}>
             PPDB
           </NavLink>

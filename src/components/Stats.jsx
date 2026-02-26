@@ -1,33 +1,33 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, GraduationCap, School, Calendar } from "lucide-react";
+import axios from "axios";
 
 export default function Stats() {
-  const stats = [
-    {
-      id: 1,
-      title: "Jumlah Siswa",
-      value: "156",
-      icon: <Users size={40} />,
-    },
-    {
-      id: 2,
-      title: "Guru & Tenaga Kependidikan",
-      value: "15",
-      icon: <GraduationCap size={40} />,
-    },
-    {
-      id: 3,
-      title: "Rombongan Belajar",
-      value: "7",
-      icon: <School size={40} />,
-    },
-    {
-      id: 4,
-      title: "Tahun Berdiri",
-      value: "1982",
-      icon: <Calendar size={40} />,
-    },
-  ];
+  const [stats, setStats] = useState([]);
+
+  // Mapping icon berdasarkan label, biar tetap sesuai style
+  const iconMap = {
+    "Jumlah Siswa": <Users size={40} />,
+    "Guru & Tenaga Kependidikan": <GraduationCap size={40} />,
+    "Rombongan Belajar": <School size={40} />,
+    "Tahun Berdiri": <Calendar size={40} />,
+  };
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/stats"); // sesuaikan base URL
+        if (res.data.success) {
+          setStats(res.data.data);
+        }
+      } catch (err) {
+        console.error("Gagal fetch stats:", err);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
     <section className="py-20 bg-gray-50">
@@ -50,17 +50,15 @@ export default function Stats() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           {stats.map((item) => (
             <motion.div
-              key={item.id}
+              key={item._id} // pakai _id dari MongoDB
               whileHover={{ scale: 1.05 }}
               className="p-8 text-center transition bg-white shadow-lg rounded-xl hover:shadow-xl"
             >
               <div className="flex justify-center mb-4 text-yellow-400">
-                {item.icon}
+                {iconMap[item.label] || <Users size={40} />} {/* default icon */}
               </div>
-              <h3 className="text-3xl font-bold text-blue-900">
-                {item.value}
-              </h3>
-              <p className="mt-2 text-gray-600">{item.title}</p>
+              <h3 className="text-3xl font-bold text-blue-900">{item.value}</h3>
+              <p className="mt-2 text-gray-600">{item.label}</p>
             </motion.div>
           ))}
         </div>

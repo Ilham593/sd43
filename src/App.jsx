@@ -5,16 +5,16 @@ import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Profil from "./pages/Profil";
 import Guru from "./pages/Guru";
-import Fasilitas from "./pages/Fasilitas";
 import Kegiatan from "./pages/Kegiatan";
-import Akademik from "./pages/Akademik";
 import Kontak from "./pages/Kontak";
-// import Berita from "./pages/Berita";
-// import DetailBerita from "./pages/DetailBerita";
 import PPDB from "./pages/PPDB";
-import Download from "./pages/Download";
+import AdminGuru from "./pages/AdminGuru";
+import AdminStats from "./pages/AdminStats";
+import AdminPPDB from "./pages/AdminPPDB";
+import AdminGallery from "./pages/AdminGallery";
 import { Routes, Route } from "react-router-dom";
-
+import FacilitiesPreview from "./pages/FacilitiesPreview";
+import AdminFacilities from "./pages/AdminFacilities";
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -30,18 +30,18 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profil" element={<Profil />} />
           <Route path="/guru" element={<Guru />} />
-          <Route path="/fasilitas" element={<Fasilitas />} />
+          <Route path="/admin/guru" element={<AdminGuru />} />
+          <Route path="/admin/stats" element={<AdminStats />} />
+          <Route path="/admin/ppdb" element={<AdminPPDB />} />
+          <Route path="/admin/gallery" element={<AdminGallery />} />
           <Route path="/kegiatan" element={<Kegiatan />} />
-          <Route path="/akademik" element={<Akademik />} />
           <Route path="/kontak" element={<Kontak />} />
-          {/* <Route path="/berita" element={<Berita />} /> */}
-          {/* <Route path="/berita/:slug" element={<DetailBerita />} /> */}
           <Route path="/ppdb" element={<PPDB />} />
-          <Route path="/download" element={<Download />} />
+          <Route path="/fasilitas" element={<FacilitiesPreview />} />
+          <Route path="/admin/facilities" element={<AdminFacilities />} />
         </Routes>
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
