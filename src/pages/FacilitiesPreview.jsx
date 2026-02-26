@@ -7,6 +7,11 @@ export default function FacilitiesPreview() {
   const navigate = useNavigate();
   const ADMIN_PASSWORD = "sdn43bkl123";
 
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "http://localhost:5000"
+  ).replace(/\/$/, "");
+
   useEffect(() => {
     fetchFacilities();
   }, []);
@@ -14,7 +19,7 @@ export default function FacilitiesPreview() {
   const fetchFacilities = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/facilities"
+        `${API_BASE}/api/facilities`
       );
 
       if (res.data.success) {
@@ -41,7 +46,6 @@ export default function FacilitiesPreview() {
     <section className="py-16 bg-gray-50">
       <div className="max-w-6xl px-4 mx-auto">
 
-        {/* Header */}
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold text-blue-900 md:text-4xl">
             Fasilitas Sekolah
@@ -59,7 +63,6 @@ export default function FacilitiesPreview() {
           </button>
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           {facilities.map((item) => (
             <div
@@ -67,7 +70,7 @@ export default function FacilitiesPreview() {
               className="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl"
             >
               <img
-                src={`http://localhost:5000/uploads/facilities/${item.image}`}
+                src={`${API_BASE}/uploads/facilities/${item.image}`}
                 alt={item.title}
                 className="object-cover w-full h-64"
               />

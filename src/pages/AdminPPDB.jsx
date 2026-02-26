@@ -15,13 +15,18 @@ export default function AdminPPDB() {
 
   const ADMIN_PASSWORD = "sdn43bkl123";
 
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "https://sd-web-api.vercel.app"
+  ).replace(/\/$/, "");
+
   useEffect(() => {
     fetchPpdb();
   }, []);
 
   const fetchPpdb = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/ppdb");
+      const res = await axios.get(`${API_BASE}/api/ppdb`);
       if (res.data.success) setPpdbList(res.data.data);
     } catch (err) {
       console.error(err);
@@ -60,12 +65,20 @@ export default function AdminPPDB() {
 
     try {
       const payload = { ...form, kuota: Number(form.kuota) };
+
       if (editId) {
-        await axios.put(`http://localhost:5000/api/ppdb/${editId}`, payload);
+        await axios.put(`${API_BASE}/api/ppdb/${editId}`, payload);
       } else {
-        await axios.post("http://localhost:5000/api/ppdb", payload);
+        await axios.post(`${API_BASE}/api/ppdb`, payload);
       }
-      setForm({ tahunAjaran: "", tanggalPendaftaran: "", kuota: "", syarat: [""], alur: [""] });
+
+      setForm({
+        tahunAjaran: "",
+        tanggalPendaftaran: "",
+        kuota: "",
+        syarat: [""],
+        alur: [""],
+      });
       setEditId(null);
       fetchPpdb();
     } catch (err) {
@@ -95,7 +108,7 @@ export default function AdminPPDB() {
     if (!window.confirm("Yakin hapus PPDB ini?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/ppdb/${id}`);
+      await axios.delete(`${API_BASE}/api/ppdb/${id}`);
       setPpdbList(ppdbList.filter((item) => item._id !== id));
     } catch (err) {
       console.error(err);
@@ -109,7 +122,6 @@ export default function AdminPPDB() {
 
       {error && <p className="mb-4 text-red-500">{error}</p>}
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="mb-8 space-y-4">
         <div className="flex flex-col gap-2 md:flex-row">
           <input
@@ -138,7 +150,6 @@ export default function AdminPPDB() {
           />
         </div>
 
-        {/* Syarat */}
         <div className="space-y-2">
           <h3 className="font-semibold text-blue-900">Syarat</h3>
           {form.syarat.map((s, i) => (
@@ -146,7 +157,9 @@ export default function AdminPPDB() {
               <input
                 type="text"
                 value={s}
-                onChange={(e) => handleArrayChange("syarat", i, e.target.value)}
+                onChange={(e) =>
+                  handleArrayChange("syarat", i, e.target.value)
+                }
                 className="flex-1 p-2 border rounded"
               />
               <button
@@ -167,7 +180,6 @@ export default function AdminPPDB() {
           </button>
         </div>
 
-        {/* Alur */}
         <div className="space-y-2">
           <h3 className="font-semibold text-blue-900">Alur</h3>
           {form.alur.map((a, i) => (
@@ -175,7 +187,9 @@ export default function AdminPPDB() {
               <input
                 type="text"
                 value={a}
-                onChange={(e) => handleArrayChange("alur", i, e.target.value)}
+                onChange={(e) =>
+                  handleArrayChange("alur", i, e.target.value)
+                }
                 className="flex-1 p-2 border rounded"
               />
               <button
@@ -201,7 +215,6 @@ export default function AdminPPDB() {
         </button>
       </form>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border min-w-[600px] md:min-w-full">
           <thead className="bg-gray-100">

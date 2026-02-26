@@ -8,14 +8,19 @@ export default function AdminGallery() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const ADMIN_PASSWORD = "sdn43bkl123"; // password untuk semua aksi
+  const ADMIN_PASSWORD = "sdn43bkl123";
+
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "https://sd-web-api.vercel.app"
+  ).replace(/\/$/, "");
 
   // Fetch gallery items
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/gallery");
+        const res = await axios.get(`${API_BASE}/api/gallery`);
         if (res.data.success) setGallery(res.data.data);
       } catch (err) {
         console.error(err);
@@ -31,7 +36,6 @@ export default function AdminGallery() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Cek password sebelum lanjut
     const input = window.prompt("Masukkan password admin untuk melakukan aksi ini:");
     if (input !== ADMIN_PASSWORD) {
       alert("Password salah! Aksi dibatalkan.");
@@ -50,19 +54,23 @@ export default function AdminGallery() {
       if (form.file) formData.append("src", form.file);
 
       if (editId) {
-        await axios.put(`http://localhost:5000/api/gallery/${editId}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await axios.put(
+          `${API_BASE}/api/gallery/${editId}`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
       } else {
-        await axios.post("http://localhost:5000/api/gallery", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await axios.post(
+          `${API_BASE}/api/gallery`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
       }
 
       setForm({ title: "", description: "", file: null });
       setEditId(null);
-      // Refetch gallery
-      const res = await axios.get("http://localhost:5000/api/gallery");
+
+      const res = await axios.get(`${API_BASE}/api/gallery`);
       if (res.data.success) setGallery(res.data.data);
     } catch (err) {
       console.error(err);
@@ -72,13 +80,16 @@ export default function AdminGallery() {
 
   // Edit gallery item
   const handleEdit = (item) => {
-    setForm({ title: item.title, description: item.description || "", file: null });
+    setForm({
+      title: item.title,
+      description: item.description || "",
+      file: null,
+    });
     setEditId(item._id);
   };
 
   // Delete gallery item
   const handleDelete = async (id) => {
-    // Password prompt sebelum hapus
     const input = window.prompt("Masukkan password admin untuk menghapus:");
     if (input !== ADMIN_PASSWORD) {
       alert("Password salah! Hapus dibatalkan.");
@@ -88,7 +99,7 @@ export default function AdminGallery() {
     if (!window.confirm("Yakin hapus gambar ini?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/gallery/${id}`);
+      await axios.delete(`${API_BASE}/api/gallery/${id}`);
       setGallery(gallery.filter((item) => item._id !== id));
     } catch (err) {
       console.error(err);
@@ -102,7 +113,6 @@ export default function AdminGallery() {
 
       {error && <p className="mb-4 text-red-500">{error}</p>}
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="mb-8 space-y-4">
         <div className="flex flex-col gap-2 md:flex-row">
           <input
@@ -122,20 +132,18 @@ export default function AdminGallery() {
         <textarea
           placeholder="Deskripsi (opsional)"
           value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, description: e.target.value })
+          }
           className="w-full p-2 border rounded"
         />
-        <button
-          className="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700"
-        >
+        <button className="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700">
           {editId ? "Update Gambar" : "Tambah Gambar"}
         </button>
       </form>
 
-      {/* Loading */}
       {loading && <p className="mb-4 text-gray-500">Loading data...</p>}
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border min-w-[500px] md:min-w-full">
           <thead className="bg-gray-100">
@@ -152,7 +160,7 @@ export default function AdminGallery() {
                 <td className="p-2 border">{item.title}</td>
                 <td className="p-2 border">
                   <img
-                    src={`http://localhost:5000${item.src}`}
+                    src={`${API_BASE}${item.src}`}
                     alt={item.title}
                     className="object-cover w-32 h-20 rounded"
                   />

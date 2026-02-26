@@ -8,17 +8,23 @@ export default function GalleryPreview() {
   const navigate = useNavigate();
   const ADMIN_PASSWORD = "sdn43bkl123";
 
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "http://localhost:5000"
+  ).replace(/\/$/, "");
+
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/gallery");
+        const res = await axios.get(`${API_BASE}/api/gallery`);
         if (res.data.success) setImages(res.data.data);
       } catch (err) {
         console.error("Gagal fetch gallery:", err);
       }
     };
+
     fetchGallery();
-  }, []);
+  }, [API_BASE]);
 
   const goToAdmin = () => {
     const input = window.prompt("Masukkan password admin untuk masuk:");
@@ -33,7 +39,6 @@ export default function GalleryPreview() {
     <section className="py-20 bg-white">
       <div className="max-w-6xl px-4 mx-auto">
 
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -47,7 +52,7 @@ export default function GalleryPreview() {
           <p className="mt-4 text-gray-600">
             Dokumentasi kegiatan dan aktivitas siswa di SD Negeri 43 Kota Bengkulu
           </p>
-          {/* Button admin */}
+
           <button
             onClick={goToAdmin}
             className="px-6 py-2 mt-4 text-white bg-red-600 rounded hover:bg-red-700"
@@ -56,7 +61,6 @@ export default function GalleryPreview() {
           </button>
         </motion.div>
 
-        {/* Grid Gallery */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           {images.map((item) => (
             <motion.div
@@ -65,12 +69,15 @@ export default function GalleryPreview() {
               className="relative overflow-hidden shadow-lg rounded-xl group"
             >
               <img
-                src={`http://localhost:5000${item.src}`}
+                src={`${API_BASE}${item.src}`}
                 alt={item.title}
                 className="object-cover w-full h-64"
               />
+
               <div className="absolute inset-0 flex items-center justify-center transition opacity-0 bg-blue-900/70 group-hover:opacity-100">
-                <p className="px-4 font-semibold text-center text-white">{item.title}</p>
+                <p className="px-4 font-semibold text-center text-white">
+                  {item.title}
+                </p>
               </div>
             </motion.div>
           ))}

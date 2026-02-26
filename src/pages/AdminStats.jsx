@@ -9,13 +9,18 @@ export default function AdminStats() {
 
   const ADMIN_PASSWORD = "sdn43bkl123";
 
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "http://localhost:5000"
+  ).replace(/\/$/, "");
+
   useEffect(() => {
     fetchStats();
   }, []);
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/stats");
+      const res = await axios.get(`${API_BASE}/api/stats`);
       if (res.data.success) setStats(res.data.data);
     } catch (err) {
       console.error(err);
@@ -34,9 +39,9 @@ export default function AdminStats() {
 
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/stats/${editId}`, form);
+        await axios.put(`${API_BASE}/api/stats/${editId}`, form);
       } else {
-        await axios.post("http://localhost:5000/api/stats", form);
+        await axios.post(`${API_BASE}/api/stats`, form);
       }
       setForm({ label: "", value: "" });
       setEditId(null);
@@ -62,7 +67,7 @@ export default function AdminStats() {
     if (!window.confirm("Yakin hapus stats ini?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/stats/${id}`);
+      await axios.delete(`${API_BASE}/api/stats/${id}`);
       setStats(stats.filter((item) => item._id !== id));
     } catch (err) {
       console.error(err);

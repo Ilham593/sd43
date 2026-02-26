@@ -11,11 +11,16 @@ export default function AdminGuru() {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
 
-  const ADMIN_PASSWORD = "sdn43bkl123"; // password untuk semua aksi
+  const ADMIN_PASSWORD = "sdn43bkl123";
+
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "https://sd-web-api.vercel.app"
+  ).replace(/\/$/, "");
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/guru");
+      const res = await fetch(`${API_BASE}/api/guru`);
       const result = await res.json();
       if (result.success) {
         setTeachers(result.data);
@@ -40,7 +45,6 @@ export default function AdminGuru() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Password prompt
     const input = window.prompt("Masukkan password admin untuk aksi ini:");
     if (input !== ADMIN_PASSWORD) {
       alert("Password salah! Aksi dibatalkan.");
@@ -49,8 +53,8 @@ export default function AdminGuru() {
 
     const method = editingId ? "PUT" : "POST";
     const url = editingId
-      ? `http://localhost:5000/api/guru/${editingId}`
-      : "http://localhost:5000/api/guru";
+      ? `${API_BASE}/api/guru/${editingId}`
+      : `${API_BASE}/api/guru`;
 
     try {
       const res = await fetch(url, {
@@ -58,6 +62,7 @@ export default function AdminGuru() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
       });
+
       const result = await res.json();
       if (result.success) {
         setForm({ nama: "", mapel: "", noHp: "", alamat: "" });
@@ -73,12 +78,16 @@ export default function AdminGuru() {
   };
 
   const handleEdit = (teacher) => {
-    setForm(teacher);
+    setForm({
+      nama: teacher.nama,
+      mapel: teacher.mapel,
+      noHp: teacher.noHp || "",
+      alamat: teacher.alamat || ""
+    });
     setEditingId(teacher._id);
   };
 
   const handleDelete = async (id) => {
-    // Password prompt sebelum hapus
     const input = window.prompt("Masukkan password admin untuk menghapus:");
     if (input !== ADMIN_PASSWORD) {
       alert("Password salah! Hapus dibatalkan.");
@@ -88,9 +97,10 @@ export default function AdminGuru() {
     if (!window.confirm("Yakin hapus guru ini?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/guru/${id}`, {
+      const res = await fetch(`${API_BASE}/api/guru/${id}`, {
         method: "DELETE"
       });
+
       const result = await res.json();
       if (result.success) {
         setTeachers(teachers.filter((t) => t._id !== id));
@@ -109,7 +119,6 @@ export default function AdminGuru() {
 
       {error && <p className="mb-4 text-red-500">{error}</p>}
 
-      {/* Form */}
       <form onSubmit={handleSubmit} className="mb-10 space-y-4">
         <input
           type="text"
@@ -151,7 +160,6 @@ export default function AdminGuru() {
         </button>
       </form>
 
-      {/* List Teachers */}
       <div className="space-y-4">
         {teachers.map((teacher) => (
           <div
@@ -161,8 +169,16 @@ export default function AdminGuru() {
             <div>
               <p className="font-semibold">{teacher.nama}</p>
               <p className="text-sm text-gray-600">{teacher.mapel}</p>
-              {teacher.noHp && <p className="text-sm text-gray-500">HP: {teacher.noHp}</p>}
-              {teacher.alamat && <p className="text-sm text-gray-500">Alamat: {teacher.alamat}</p>}
+              {teacher.noHp && (
+                <p className="text-sm text-gray-500">
+                  HP: {teacher.noHp}
+                </p>
+              )}
+              {teacher.alamat && (
+                <p className="text-sm text-gray-500">
+                  Alamat: {teacher.alamat}
+                </p>
+              )}
             </div>
 
             <div className="flex gap-2 mt-2 md:mt-0">

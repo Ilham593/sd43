@@ -5,8 +5,14 @@ import axios from "axios";
 
 export default function Stats() {
   const [stats, setStats] = useState([]);
+  const [error, setError] = useState("");
 
-  // Mapping icon berdasarkan label, biar tetap sesuai style
+  // Base URL aman (kalau env gak kebaca, tetap jalan)
+  const API_BASE =
+    import.meta.env.VITE_API_URL ||
+    "https://sd-web-api.vercel.app";
+
+  // Mapping icon berdasarkan label
   const iconMap = {
     "Jumlah Siswa": <Users size={40} />,
     "Guru & Tenaga Kependidikan": <GraduationCap size={40} />,
@@ -17,17 +23,19 @@ export default function Stats() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/stats"); // sesuaikan base URL
+        const res = await axios.get(`${API_BASE}/api/stats`);
+
         if (res.data.success) {
           setStats(res.data.data);
         }
       } catch (err) {
         console.error("Gagal fetch stats:", err);
+        setError("Data tidak dapat dimuat.");
       }
     };
 
     fetchStats();
-  }, []);
+  }, [API_BASE]);
 
   return (
     <section className="py-20 bg-gray-50">
@@ -42,23 +50,36 @@ export default function Stats() {
           <h2 className="text-3xl font-bold text-blue-900 md:text-4xl">
             Data Sekolah
           </h2>
+
           <p className="mt-4 text-gray-600">
             Informasi resmi SD Negeri 43 Kota Bengkulu
           </p>
         </motion.div>
 
+        {error && (
+          <p className="mb-6 text-center text-red-500">
+            {error}
+          </p>
+        )}
+
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           {stats.map((item) => (
             <motion.div
-              key={item._id} // pakai _id dari MongoDB
+              key={item._id}
               whileHover={{ scale: 1.05 }}
               className="p-8 text-center transition bg-white shadow-lg rounded-xl hover:shadow-xl"
             >
               <div className="flex justify-center mb-4 text-yellow-400">
-                {iconMap[item.label] || <Users size={40} />} {/* default icon */}
+                {iconMap[item.label] || <Users size={40} />}
               </div>
-              <h3 className="text-3xl font-bold text-blue-900">{item.value}</h3>
-              <p className="mt-2 text-gray-600">{item.label}</p>
+
+              <h3 className="text-3xl font-bold text-blue-900">
+                {item.value}
+              </h3>
+
+              <p className="mt-2 text-gray-600">
+                {item.label}
+              </p>
             </motion.div>
           ))}
         </div>

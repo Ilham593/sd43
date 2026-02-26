@@ -9,10 +9,15 @@ export default function Guru() {
   const navigate = useNavigate();
   const ADMIN_PASSWORD = "sdn43bkl123";
 
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "http://localhost:5000"
+  ).replace(/\/$/, "");
+
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/guru");
+        const res = await fetch(`${API_BASE}/api/guru`);
         const result = await res.json();
 
         if (!result.success) {
@@ -28,7 +33,7 @@ export default function Guru() {
     };
 
     fetchTeachers();
-  }, []);
+  }, [API_BASE]);
 
   const goToAdmin = () => {
     const input = window.prompt("Masukkan password admin untuk masuk:");

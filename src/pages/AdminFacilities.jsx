@@ -10,6 +10,11 @@ export default function AdminFacilities() {
 
   const ADMIN_PASSWORD = "sdn43bkl123";
 
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "https://sd-web-api.vercel.app"
+  ).replace(/\/$/, "");
+
   useEffect(() => {
     fetchFacilities();
   }, []);
@@ -17,14 +22,13 @@ export default function AdminFacilities() {
   const fetchFacilities = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        "http://localhost:5000/api/facilities"
-      );
+      const res = await axios.get(`${API_BASE}/api/facilities`);
 
       if (res.data.success) {
         setFacilities(res.data.data);
       }
     } catch (err) {
+      console.error(err);
       setError("Gagal fetch data fasilitas.");
     } finally {
       setLoading(false);
@@ -53,12 +57,12 @@ export default function AdminFacilities() {
 
       if (editId) {
         await axios.put(
-          `http://localhost:5000/api/facilities/${editId}`,
+          `${API_BASE}/api/facilities/${editId}`,
           formData
         );
       } else {
         await axios.post(
-          "http://localhost:5000/api/facilities",
+          `${API_BASE}/api/facilities`,
           formData
         );
       }
@@ -67,6 +71,7 @@ export default function AdminFacilities() {
       setEditId(null);
       fetchFacilities();
     } catch (err) {
+      console.error(err);
       alert("Gagal menyimpan data.");
     }
   };
@@ -80,10 +85,11 @@ export default function AdminFacilities() {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/facilities/${id}`
+        `${API_BASE}/api/facilities/${id}`
       );
       fetchFacilities();
-    } catch {
+    } catch (err) {
+      console.error(err);
       alert("Gagal menghapus.");
     }
   };
@@ -142,7 +148,7 @@ export default function AdminFacilities() {
             className="p-4 border rounded shadow"
           >
             <img
-              src={`http://localhost:5000/uploads/facilities/${item.image}`}
+              src={`${API_BASE}/uploads/facilities/${item.image}`}
               alt={item.title}
               className="object-cover w-full h-48 rounded"
             />
