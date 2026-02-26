@@ -39,9 +39,9 @@ export default function Navbar() {
           <NavLink to="/fasilitas" className={desktopLinkClass}>
             Fasilitas
           </NavLink>
-          <NavLink to="/ppdb" className={desktopLinkClass}>
+          {/* <NavLink to="/ppdb" className={desktopLinkClass}>
             PPDB
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/kontak" className={desktopLinkClass}>
             Kontak
           </NavLink>
@@ -82,9 +82,9 @@ export default function Navbar() {
           >
             Fasilitas
           </NavLink>
-          <NavLink to="/ppdb" className={mobileLinkClass} onClick={closeMenu}>
+          {/* <NavLink to="/ppdb" className={mobileLinkClass} onClick={closeMenu}>
             PPDB
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/kontak" className={mobileLinkClass} onClick={closeMenu}>
             Kontak
           </NavLink>

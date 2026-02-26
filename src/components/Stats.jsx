@@ -5,14 +5,12 @@ import axios from "axios";
 
 export default function Stats() {
   const [stats, setStats] = useState([]);
-  const [error, setError] = useState("");
 
-  // Base URL aman (kalau env gak kebaca, tetap jalan)
-  const API_BASE =
-    import.meta.env.VITE_API_URL ||
-    "https://sd-web-api.vercel.app";
+  const API_BASE = (
+    import.meta.env.VITE_API_URL ??
+    "http://localhost:5000"
+  ).replace(/\/$/, "");
 
-  // Mapping icon berdasarkan label
   const iconMap = {
     "Jumlah Siswa": <Users size={40} />,
     "Guru & Tenaga Kependidikan": <GraduationCap size={40} />,
@@ -24,13 +22,11 @@ export default function Stats() {
     const fetchStats = async () => {
       try {
         const res = await axios.get(`${API_BASE}/api/stats`);
-
         if (res.data.success) {
           setStats(res.data.data);
         }
       } catch (err) {
         console.error("Gagal fetch stats:", err);
-        setError("Data tidak dapat dimuat.");
       }
     };
 
@@ -50,17 +46,10 @@ export default function Stats() {
           <h2 className="text-3xl font-bold text-blue-900 md:text-4xl">
             Data Sekolah
           </h2>
-
           <p className="mt-4 text-gray-600">
             Informasi resmi SD Negeri 43 Kota Bengkulu
           </p>
         </motion.div>
-
-        {error && (
-          <p className="mb-6 text-center text-red-500">
-            {error}
-          </p>
-        )}
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           {stats.map((item) => (

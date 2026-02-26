@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import gerbang from "../assets/images/gerbang.jpeg";
 export default function Hero() {
   return (
-    <section className="relative h-screen flex items-center justify-center text-center text-white">
+    <section className="relative flex items-center justify-center h-screen text-center text-white">
       
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914"
+          src={gerbang}
           alt="Sekolah"
-          className="w-full h-full object-cover"
+          className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 bg-blue-900/70"></div>
       </div>
@@ -21,25 +22,25 @@ export default function Hero() {
         transition={{ duration: 0.8 }}
         className="relative z-10 max-w-3xl px-4"
       >
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+        <h1 className="text-4xl font-bold leading-tight md:text-6xl">
           SD Negeri 43 Kota Bengkulu
         </h1>
 
-        <p className="mt-6 text-lg md:text-xl text-gray-200">
+        <p className="mt-6 text-lg text-gray-200 md:text-xl">
           Membangun Generasi Cerdas, Berkarakter, dan Berprestasi
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+        <div className="flex flex-col justify-center gap-4 mt-8 sm:flex-row">
           <Link
             to="/profil"
-            className="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition"
+            className="px-6 py-3 font-semibold text-blue-900 transition bg-yellow-400 rounded-lg hover:bg-yellow-300"
           >
             Lihat Profil
           </Link>
 
           <Link
             to="/kontak"
-            className="border border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition"
+            className="px-6 py-3 font-semibold transition border border-white rounded-lg hover:bg-white hover:text-blue-900"
           >
             Hubungi Kami
           </Link>
