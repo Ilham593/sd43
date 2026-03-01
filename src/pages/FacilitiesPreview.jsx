@@ -18,9 +18,7 @@ export default function FacilitiesPreview() {
 
   const fetchFacilities = async () => {
     try {
-      const res = await axios.get(
-        `${API_BASE}/api/facilities`
-      );
+      const res = await axios.get(`${API_BASE}/api/facilities`);
 
       if (res.data.success) {
         setFacilities(res.data.data);
@@ -69,13 +67,12 @@ export default function FacilitiesPreview() {
               key={item._id}
               className="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl"
             >
-              {item.image && (
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="object-cover w-full h-64"
-                />
-              )}
+              {/* 🔥 FIX DI SINI */}
+              <img
+                src={`${API_BASE}/api/facilities/${item._id}/image`}
+                alt={item.title}
+                className="object-cover w-full h-64"
+              />
 
               <div className="p-4 bg-white">
                 <h3 className="text-lg font-semibold">

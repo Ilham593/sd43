@@ -60,15 +60,9 @@ export default function AdminGallery() {
       }
 
       if (editId) {
-        await axios.put(
-          `${API_BASE}/api/gallery/${editId}`,
-          formData
-        );
+        await axios.put(`${API_BASE}/api/gallery/${editId}`, formData);
       } else {
-        await axios.post(
-          `${API_BASE}/api/gallery`,
-          formData
-        );
+        await axios.post(`${API_BASE}/api/gallery`, formData);
       }
 
       setForm({ title: "", description: "", file: null });
@@ -168,13 +162,11 @@ export default function AdminGallery() {
                 <td className="p-2 border">{item.title}</td>
 
                 <td className="p-2 border">
-                  {item.image && (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="object-cover w-32 h-20 rounded"
-                    />
-                  )}
+                  <img
+                    src={`${API_BASE}/api/gallery/${item._id}/image`}
+                    alt={item.title}
+                    className="object-cover w-32 h-20 rounded"
+                  />
                 </td>
 
                 <td className="p-2 border">{item.description}</td>

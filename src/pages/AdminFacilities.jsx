@@ -61,15 +61,9 @@ export default function AdminFacilities() {
       }
 
       if (editId) {
-        await axios.put(
-          `${API_BASE}/api/facilities/${editId}`,
-          formData
-        );
+        await axios.put(`${API_BASE}/api/facilities/${editId}`, formData);
       } else {
-        await axios.post(
-          `${API_BASE}/api/facilities`,
-          formData
-        );
+        await axios.post(`${API_BASE}/api/facilities`, formData);
       }
 
       setForm({ title: "", desc: "", file: null });
@@ -99,9 +93,7 @@ export default function AdminFacilities() {
 
   return (
     <div className="p-6 md:p-10">
-      <h2 className="mb-6 text-2xl font-bold">
-        Admin Fasilitas
-      </h2>
+      <h2 className="mb-6 text-2xl font-bold">Admin Fasilitas</h2>
 
       {error && <p className="text-red-500">{error}</p>}
 
@@ -143,26 +135,18 @@ export default function AdminFacilities() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {facilities.map((item) => (
-          <div
-            key={item._id}
-            className="p-4 border rounded shadow"
-          >
-            {/* Jika backend kirim base64 */}
-            {item.image && (
-              <img
-                src={item.image}
-                alt={item.title}
-                className="object-cover w-full h-48 rounded"
-              />
-            )}
+          <div key={item._id} className="p-4 border rounded shadow">
+            
+            {/* 🔥 FIX DI SINI */}
+            <img
+              src={`${API_BASE}/api/facilities/${item._id}/image`}
+              alt={item.title}
+              className="object-cover w-full h-48 rounded"
+            />
 
-            <h3 className="mt-3 font-semibold">
-              {item.title}
-            </h3>
+            <h3 className="mt-3 font-semibold">{item.title}</h3>
 
-            <p className="text-sm text-gray-600">
-              {item.desc}
-            </p>
+            <p className="text-sm text-gray-600">{item.desc}</p>
 
             <button
               onClick={() => handleDelete(item._id)}

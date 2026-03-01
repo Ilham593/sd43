@@ -71,13 +71,11 @@ export default function GalleryPreview() {
               whileHover={{ scale: 1.03 }}
               className="relative overflow-hidden shadow-lg rounded-xl group"
             >
-              {item.image && (
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="object-cover w-full h-64"
-                />
-              )}
+              <img
+                src={`${API_BASE}/api/gallery/${item._id}/image`}
+                alt={item.title}
+                className="object-cover w-full h-64"
+              />
 
               <div className="absolute inset-0 flex items-center justify-center transition opacity-0 bg-blue-900/70 group-hover:opacity-100">
                 <p className="px-4 font-semibold text-center text-white">
