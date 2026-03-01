@@ -15,30 +15,33 @@ export default function AdminGallery() {
     "https://sd-web-api.vercel.app"
   ).replace(/\/$/, "");
 
-  // Fetch gallery items
   useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(`${API_BASE}/api/gallery`);
-        if (res.data.success) setGallery(res.data.data);
-      } catch (err) {
-        console.error(err);
-        setError("Gagal fetch data gallery. Pastikan server berjalan.");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchGallery();
   }, []);
 
-  // Submit form (add or update)
+  const fetchGallery = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await axios.get(`${API_BASE}/api/gallery`);
+      if (res.data.success) {
+        setGallery(res.data.data);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Gagal fetch data gallery.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const input = window.prompt("Masukkan password admin untuk melakukan aksi ini:");
+    const input = window.prompt("Masukkan password admin:");
     if (input !== ADMIN_PASSWORD) {
-      alert("Password salah! Aksi dibatalkan.");
+      alert("Password salah!");
       return;
     }
 
@@ -51,34 +54,32 @@ export default function AdminGallery() {
       const formData = new FormData();
       formData.append("title", form.title);
       formData.append("description", form.description);
-      if (form.file) formData.append("src", form.file);
+
+      if (form.file) {
+        formData.append("image", form.file);
+      }
 
       if (editId) {
         await axios.put(
           `${API_BASE}/api/gallery/${editId}`,
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
+          formData
         );
       } else {
         await axios.post(
           `${API_BASE}/api/gallery`,
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
+          formData
         );
       }
 
       setForm({ title: "", description: "", file: null });
       setEditId(null);
-
-      const res = await axios.get(`${API_BASE}/api/gallery`);
-      if (res.data.success) setGallery(res.data.data);
+      fetchGallery();
     } catch (err) {
       console.error(err);
       alert("Gagal menyimpan data.");
     }
   };
 
-  // Edit gallery item
   const handleEdit = (item) => {
     setForm({
       title: item.title,
@@ -88,11 +89,10 @@ export default function AdminGallery() {
     setEditId(item._id);
   };
 
-  // Delete gallery item
   const handleDelete = async (id) => {
-    const input = window.prompt("Masukkan password admin untuk menghapus:");
+    const input = window.prompt("Masukkan password admin:");
     if (input !== ADMIN_PASSWORD) {
-      alert("Password salah! Hapus dibatalkan.");
+      alert("Password salah!");
       return;
     }
 
@@ -100,7 +100,7 @@ export default function AdminGallery() {
 
     try {
       await axios.delete(`${API_BASE}/api/gallery/${id}`);
-      setGallery(gallery.filter((item) => item._id !== id));
+      fetchGallery();
     } catch (err) {
       console.error(err);
       alert("Gagal menghapus data.");
@@ -119,16 +119,22 @@ export default function AdminGallery() {
             type="text"
             placeholder="Judul"
             value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, title: e.target.value })
+            }
             className="flex-1 p-2 border rounded"
           />
+
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setForm({ ...form, file: e.target.files[0] })}
+            onChange={(e) =>
+              setForm({ ...form, file: e.target.files[0] })
+            }
             className="flex-1 p-2 border rounded"
           />
         </div>
+
         <textarea
           placeholder="Deskripsi (opsional)"
           value={form.description}
@@ -137,12 +143,13 @@ export default function AdminGallery() {
           }
           className="w-full p-2 border rounded"
         />
+
         <button className="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700">
           {editId ? "Update Gambar" : "Tambah Gambar"}
         </button>
       </form>
 
-      {loading && <p className="mb-4 text-gray-500">Loading data...</p>}
+      {loading && <p className="mb-4 text-gray-500">Loading...</p>}
 
       <div className="overflow-x-auto">
         <table className="w-full border min-w-[500px] md:min-w-full">
@@ -154,28 +161,35 @@ export default function AdminGallery() {
               <th className="p-2 border">Aksi</th>
             </tr>
           </thead>
+
           <tbody>
             {gallery.map((item) => (
               <tr key={item._id} className="hover:bg-gray-50">
                 <td className="p-2 border">{item.title}</td>
+
                 <td className="p-2 border">
-                  <img
-                    src={`${API_BASE}${item.src}`}
-                    alt={item.title}
-                    className="object-cover w-32 h-20 rounded"
-                  />
+                  {item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="object-cover w-32 h-20 rounded"
+                    />
+                  )}
                 </td>
+
                 <td className="p-2 border">{item.description}</td>
+
                 <td className="flex flex-col gap-2 p-2 border">
                   <button
                     onClick={() => handleEdit(item)}
-                    className="w-full px-2 py-1 bg-yellow-400 rounded md:w-auto hover:bg-yellow-500"
+                    className="px-2 py-1 bg-yellow-400 rounded hover:bg-yellow-500"
                   >
                     Edit
                   </button>
+
                   <button
                     onClick={() => handleDelete(item._id)}
-                    className="w-full px-2 py-1 text-white bg-red-500 rounded md:w-auto hover:bg-red-600"
+                    className="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
                   >
                     Hapus
                   </button>

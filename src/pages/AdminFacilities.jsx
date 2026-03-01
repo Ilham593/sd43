@@ -22,6 +22,8 @@ export default function AdminFacilities() {
   const fetchFacilities = async () => {
     try {
       setLoading(true);
+      setError("");
+
       const res = await axios.get(`${API_BASE}/api/facilities`);
 
       if (res.data.success) {
@@ -53,7 +55,10 @@ export default function AdminFacilities() {
       const formData = new FormData();
       formData.append("title", form.title);
       formData.append("desc", form.desc);
-      if (form.file) formData.append("image", form.file);
+
+      if (form.file) {
+        formData.append("image", form.file);
+      }
 
       if (editId) {
         await axios.put(
@@ -84,9 +89,7 @@ export default function AdminFacilities() {
     }
 
     try {
-      await axios.delete(
-        `${API_BASE}/api/facilities/${id}`
-      );
+      await axios.delete(`${API_BASE}/api/facilities/${id}`);
       fetchFacilities();
     } catch (err) {
       console.error(err);
@@ -102,10 +105,7 @@ export default function AdminFacilities() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <form
-        onSubmit={handleSubmit}
-        className="mb-10 space-y-4"
-      >
+      <form onSubmit={handleSubmit} className="mb-10 space-y-4">
         <input
           type="text"
           placeholder="Judul"
@@ -147,14 +147,19 @@ export default function AdminFacilities() {
             key={item._id}
             className="p-4 border rounded shadow"
           >
-            <img
-              src={`${API_BASE}/uploads/facilities/${item.image}`}
-              alt={item.title}
-              className="object-cover w-full h-48 rounded"
-            />
+            {/* Jika backend kirim base64 */}
+            {item.image && (
+              <img
+                src={item.image}
+                alt={item.title}
+                className="object-cover w-full h-48 rounded"
+              />
+            )}
+
             <h3 className="mt-3 font-semibold">
               {item.title}
             </h3>
+
             <p className="text-sm text-gray-600">
               {item.desc}
             </p>

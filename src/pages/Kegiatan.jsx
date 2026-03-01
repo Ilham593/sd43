@@ -10,28 +10,30 @@ export default function GalleryPreview() {
 
   const API_BASE = (
     import.meta.env.VITE_API_URL ??
-    "http://localhost:5000"
+    "https://sd-web-api.vercel.app"
   ).replace(/\/$/, "");
 
   useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        const res = await axios.get(`${API_BASE}/api/gallery`);
-        if (res.data.success) setImages(res.data.data);
-      } catch (err) {
-        console.error("Gagal fetch gallery:", err);
-      }
-    };
-
     fetchGallery();
-  }, [API_BASE]);
+  }, []);
+
+  const fetchGallery = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/api/gallery`);
+      if (res.data.success) {
+        setImages(res.data.data);
+      }
+    } catch (err) {
+      console.error("Gagal fetch gallery:", err);
+    }
+  };
 
   const goToAdmin = () => {
     const input = window.prompt("Masukkan password admin untuk masuk:");
     if (input === ADMIN_PASSWORD) {
       navigate("/admin/gallery");
     } else {
-      alert("Password salah! Akses dibatalkan.");
+      alert("Password salah!");
     }
   };
 
@@ -49,6 +51,7 @@ export default function GalleryPreview() {
           <h2 className="text-3xl font-bold text-blue-900 md:text-4xl">
             Galeri Kegiatan
           </h2>
+
           <p className="mt-4 text-gray-600">
             Dokumentasi kegiatan dan aktivitas siswa di SD Negeri 43 Kota Bengkulu
           </p>
@@ -68,11 +71,13 @@ export default function GalleryPreview() {
               whileHover={{ scale: 1.03 }}
               className="relative overflow-hidden shadow-lg rounded-xl group"
             >
-              <img
-                src={`${API_BASE}${item.src}`}
-                alt={item.title}
-                className="object-cover w-full h-64"
-              />
+              {item.image && (
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="object-cover w-full h-64"
+                />
+              )}
 
               <div className="absolute inset-0 flex items-center justify-center transition opacity-0 bg-blue-900/70 group-hover:opacity-100">
                 <p className="px-4 font-semibold text-center text-white">

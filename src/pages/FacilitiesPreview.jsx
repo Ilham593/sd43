@@ -9,7 +9,7 @@ export default function FacilitiesPreview() {
 
   const API_BASE = (
     import.meta.env.VITE_API_URL ??
-    "http://localhost:5000"
+    "https://sd-web-api.vercel.app"
   ).replace(/\/$/, "");
 
   useEffect(() => {
@@ -69,11 +69,13 @@ export default function FacilitiesPreview() {
               key={item._id}
               className="overflow-hidden transition shadow-lg rounded-xl hover:shadow-xl"
             >
-              <img
-                src={`${API_BASE}/uploads/facilities/${item.image}`}
-                alt={item.title}
-                className="object-cover w-full h-64"
-              />
+              {item.image && (
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="object-cover w-full h-64"
+                />
+              )}
 
               <div className="p-4 bg-white">
                 <h3 className="text-lg font-semibold">
