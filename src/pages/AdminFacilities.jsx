@@ -11,8 +11,7 @@ export default function AdminFacilities() {
   const ADMIN_PASSWORD = "sdn43bkl123";
 
   const API_BASE = (
-    import.meta.env.VITE_API_URL ??
-    "https://sd-web-api.vercel.app"
+    import.meta.env.VITE_API_URL ?? "https://sd-web-api.vercel.app"
   ).replace(/\/$/, "");
 
   useEffect(() => {
@@ -61,17 +60,21 @@ export default function AdminFacilities() {
       }
 
       if (editId) {
-        await axios.put(`${API_BASE}/api/facilities/${editId}`, formData);
+        await axios.put(`${API_BASE}/api/facilities/${editId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       } else {
-        await axios.post(`${API_BASE}/api/facilities`, formData);
+        await axios.post(`${API_BASE}/api/facilities`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       }
 
       setForm({ title: "", desc: "", file: null });
       setEditId(null);
       fetchFacilities();
     } catch (err) {
-      console.error(err);
-      alert("Gagal menyimpan data.");
+      console.error(err.response?.data || err);
+      alert(err.response?.data?.message || "Gagal menyimpan data.");
     }
   };
 
@@ -102,27 +105,21 @@ export default function AdminFacilities() {
           type="text"
           placeholder="Judul"
           value={form.title}
-          onChange={(e) =>
-            setForm({ ...form, title: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
           className="w-full p-2 border rounded"
         />
 
         <input
           type="file"
           accept="image/*"
-          onChange={(e) =>
-            setForm({ ...form, file: e.target.files[0] })
-          }
+          onChange={(e) => setForm({ ...form, file: e.target.files[0] })}
           className="w-full p-2 border rounded"
         />
 
         <textarea
           placeholder="Deskripsi"
           value={form.desc}
-          onChange={(e) =>
-            setForm({ ...form, desc: e.target.value })
-          }
+          onChange={(e) => setForm({ ...form, desc: e.target.value })}
           className="w-full p-2 border rounded"
         />
 
@@ -136,7 +133,6 @@ export default function AdminFacilities() {
       <div className="grid gap-6 md:grid-cols-3">
         {facilities.map((item) => (
           <div key={item._id} className="p-4 border rounded shadow">
-            
             {/* 🔥 FIX DI SINI */}
             <img
               src={`${API_BASE}/api/facilities/${item._id}/image`}
