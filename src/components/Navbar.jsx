@@ -17,6 +17,11 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Menutup menu saat berpindah halaman
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
+
   const handleAdminClick = (e) => {
     e.preventDefault();
     setIsOpen(false);
@@ -34,60 +39,66 @@ function Navbar() {
   ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur-sm shadow-sm py-2" : "bg-white py-3"} border-b border-gray-100`}>
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-12">
-          
-          {/* Logo - Dibuat lebih kecil sedikit agar tidak makan tempat */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div className="p-1.5 text-white bg-blue-600 rounded-lg shadow-sm">
-              <HiAcademicCap size={20} />
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-base font-bold text-gray-900">SDN 43</span>
-              <span className="text-[10px] font-medium text-blue-600 uppercase tracking-tighter">Bengkulu</span>
-            </div>
-          </Link>
-
-          {/* Desktop Menu - Menggunakan Gap yang lebih kecil (gap-1) agar muat banyak */}
-          <nav className="items-center hidden gap-1 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all ${
-                  location.pathname === link.path ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:text-blue-600"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+    <>
+      <header className={`sticky top-0 z-[60] transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur-sm shadow-sm py-2" : "bg-white py-3"} border-b border-gray-100`}>
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-12">
             
-            <button
-              onClick={handleAdminClick}
-              className="ml-2 flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gray-900 rounded-full hover:bg-blue-600 transition-colors shadow-sm"
-            >
-              <HiLockClosed size={14} /> Admin
-            </button>
-          </nav>
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2 shrink-0">
+              <div className="p-1.5 text-white bg-blue-600 rounded-lg shadow-sm">
+                <HiAcademicCap size={20} />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <span className="text-base font-bold text-gray-900">SDN 43</span>
+                <span className="text-[10px] font-medium text-blue-600 uppercase tracking-tighter">Bengkulu</span>
+              </div>
+            </Link>
 
-          {/* Menu Hamburger - Muncul di layar < 1024px (lg) */}
-          <div className="flex lg:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
-              {isOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
-            </button>
+            {/* Desktop Menu */}
+            <nav className="items-center hidden gap-1 lg:flex">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all ${
+                    location.pathname === link.path ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:text-blue-600"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              
+              <button
+                onClick={handleAdminClick}
+                className="ml-2 flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-gray-900 rounded-full hover:bg-blue-600 transition-colors shadow-sm"
+              >
+                <HiLockClosed size={14} /> Admin
+              </button>
+            </nav>
+
+            {/* Mobile Toggle Button */}
+            <div className="flex lg:hidden">
+              <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-600 rounded-lg hover:bg-gray-100">
+                {isOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
+              </button>
+            </div>
           </div>
-
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-x-0 bg-white border-b shadow-2xl transition-all duration-300 lg:hidden ${isOpen ? "top-[100%] opacity-100 visible" : "top-[110%] opacity-0 invisible"}`}>
+      {/* Mobile Menu Overlay - FIXED Position agar tidak bergantung pada scroll header */}
+      <div 
+        className={`fixed inset-x-0 z-[55] bg-white border-b shadow-2xl transition-all duration-300 lg:hidden ${
+          isOpen 
+          ? "top-[64px] opacity-100 translate-y-0 visible" 
+          : "-top-full opacity-0 -translate-y-10 invisible"
+        }`}
+      >
         <div className="p-4 space-y-1 bg-white">
           {navLinks.map((link) => (
             <Link
               key={link.name}
-              onClick={() => setIsOpen(false)}
               to={link.path}
               className={`flex items-center justify-between px-4 py-3 text-sm font-bold rounded-xl ${
                 location.pathname === link.path ? "bg-blue-50 text-blue-600" : "text-gray-700 hover:bg-gray-50"
@@ -106,8 +117,16 @@ function Navbar() {
           </div>
         </div>
       </div>
-    </header>
+
+      {/* Backdrop (Opsional: Klik di luar menu untuk menutup) */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-[50] bg-black/20 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </>
   );
 }
 
-export default Navbar; 
+export default Navbar;
