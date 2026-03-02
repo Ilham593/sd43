@@ -7,6 +7,7 @@ import Fasilitas from "./pages/Fasilitas"
 import Galeri from "./pages/Galeri"
 import Kontak from "./pages/Kontak"
 import Guru from "./pages/Guru"
+import Admin from "./pages/Admin"
 function App() {
   return (
     <Routes>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/galeri" element={<Galeri />} />
         <Route path="/kontak" element={<Kontak />} />
         <Route path="/guru" element={<Guru />} />
+        <Route path="/admin-rahasia-43" element={<Admin />} />
       </Route>
     </Routes>
   )

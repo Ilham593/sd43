@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react"; // 1. Tambahkan hooks
+import axios from "axios"; // 2. Tambahkan axios
 import { 
   HiInformationCircle, 
   HiUserGroup, 
@@ -10,7 +12,36 @@ import {
 } from "react-icons/hi";
 import { FaVenus, FaMars } from "react-icons/fa";
 
+// Mengambil URL API dari Environment Variable Vercel
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 function Profil() {
+  // 3. State untuk menampung data statistik dari MongoDB
+  const [stats, setStats] = useState({
+    totalSiswa: "0",
+    rombelCount: "0",
+    akreditasi: "B",
+    siswaLaki: "0",
+    siswaPerempuan: "0",
+    usiaDominan: "6-12 Tahun",
+    ekonomiRendah: "0",
+    ekonomiMenengah: "0",
+    ekonomiAtas: "0"
+  });
+
+  // 4. Lifecycle untuk Fetch data
+  useEffect(() => {
+    const fetchProfilData = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/stats`); // Menggunakan template literal & API_URL
+        setStats(res.data);
+      } catch (err) {
+        console.error("Gagal memuat profil:", err);
+      }
+    };
+    fetchProfilData();
+  }, []);
+
   return (
     <div className="pb-20 space-y-12 md:space-y-20">
       
@@ -19,7 +50,7 @@ function Profil() {
         <div className="absolute top-0 right-0 w-64 h-64 translate-x-32 -translate-y-32 rounded-full bg-white/10 blur-3xl"></div>
         <div className="relative z-10 max-w-4xl space-y-4">
           <div className="flex items-center gap-2 px-3 py-1 text-xs font-bold rounded-full bg-white/20 backdrop-blur-md w-fit">
-            <HiSparkles /> AKREDITASI B
+            <HiSparkles /> AKREDITASI {stats.akreditasi}
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl">
             Profil Sekolah
@@ -34,7 +65,7 @@ function Profil() {
       {/* INFORMASI UMUM & RINGKASAN SISWA */}
       <section className="grid gap-8 lg:grid-cols-3">
         
-        {/* KOLOM 1: INFORMASI UMUM (Lebih Lebar) */}
+        {/* KOLOM 1: IDENTITAS */}
         <div className="lg:col-span-2 p-8 bg-white border border-gray-100 shadow-xl rounded-[32px] space-y-8">
           <div className="flex items-center gap-3">
             <div className="p-3 text-blue-600 bg-blue-50 rounded-2xl">
@@ -49,7 +80,7 @@ function Profil() {
             <InfoRow label="Kota" value="Bengkulu" icon={<HiMap className="text-blue-400" />} />
             <InfoRow label="Provinsi" value="Bengkulu" icon={<HiMap className="text-blue-400" />} />
             <InfoRow label="Kurikulum" value="Kurikulum Merdeka" icon={<HiBookOpen className="text-orange-400" />} />
-            <InfoRow label="Rombongan Belajar" value="7 Rombel" icon={<HiUserGroup className="text-purple-400" />} />
+            <InfoRow label="Rombongan Belajar" value={`${stats.rombelCount} Rombel`} icon={<HiUserGroup className="text-purple-400" />} />
           </div>
         </div>
 
@@ -60,18 +91,18 @@ function Profil() {
           <div className="space-y-6">
             <div className="p-4 text-center border bg-white/10 rounded-2xl backdrop-blur-sm border-white/10">
               <p className="text-xs font-bold tracking-widest text-blue-300 uppercase">Total Peserta Didik</p>
-              <p className="mt-1 text-5xl font-black">156</p>
+              <p className="mt-1 text-5xl font-black">{stats.totalSiswa}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col items-center p-3 border bg-blue-500/20 rounded-xl border-blue-400/20">
                 <FaMars className="mb-1 text-blue-400" />
-                <span className="text-xl font-bold">80</span>
+                <span className="text-xl font-bold">{stats.siswaLaki}</span>
                 <span className="text-[10px] opacity-70 uppercase font-bold">Laki-laki</span>
               </div>
               <div className="flex flex-col items-center p-3 border bg-pink-500/20 rounded-xl border-pink-400/20">
                 <FaVenus className="mb-1 text-pink-400" />
-                <span className="text-xl font-bold">76</span>
+                <span className="text-xl font-bold">{stats.siswaPerempuan}</span>
                 <span className="text-[10px] opacity-70 uppercase font-bold">Perempuan</span>
               </div>
             </div>
@@ -79,7 +110,7 @@ function Profil() {
             <div className="pt-4 border-t border-white/10">
               <div className="flex justify-between mb-2 text-xs">
                 <span>Rentang Usia Dominan</span>
-                <span className="font-bold text-blue-300">6–12 Tahun</span>
+                <span className="font-bold text-blue-300">{stats.usiaDominan}</span>
               </div>
               <div className="w-full h-2 overflow-hidden rounded-full bg-white/10">
                 <div className="w-full h-full bg-blue-500"></div>
@@ -89,7 +120,7 @@ function Profil() {
         </div>
       </section>
 
-      {/* KARAKTERISTIK SOSIAL (Bento Style) */}
+      {/* KARAKTERISTIK SOSIAL (Dinamis Berdasarkan Ekonomi) */}
       <section className="space-y-8">
         <div className="flex items-center gap-3">
           <div className="p-3 text-orange-600 bg-orange-50 rounded-2xl">
@@ -102,13 +133,13 @@ function Profil() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <EconomiCard label="Rp 500rb – 999rb" value="100" sub="Siswa" color="bg-blue-600" />
-          <EconomiCard label="Rp 1jt – 1.9jt" value="26" sub="Siswa" color="bg-indigo-500" />
-          <EconomiCard label="Rp 2jt – 4.9jt" value="17" sub="Siswa" color="bg-purple-500" />
+          <EconomiCard label="Rp 500rb – 999rb" value={stats.ekonomiRendah} total={stats.totalSiswa} color="bg-blue-600" />
+          <EconomiCard label="Rp 1jt – 1.9jt" value={stats.ekonomiMenengah} total={stats.totalSiswa} color="bg-indigo-500" />
+          <EconomiCard label="Rp 2jt – 4.9jt" value={stats.ekonomiAtas} total={stats.totalSiswa} color="bg-purple-500" />
         </div>
       </section>
 
-      {/* FASILITAS UNGGULAN (Hover Cards) */}
+      {/* FASILITAS UNGGULAN - Tetap Statis sesuai request */}
       <section className="grid gap-6 md:grid-cols-3">
         <FacilityCard 
           icon={<HiHand className="text-blue-600" size={32} />} 
@@ -133,7 +164,7 @@ function Profil() {
   );
 }
 
-/* COMPONENT HELPER */
+/* HELPER COMPONENTS */
 
 function InfoRow({ label, value, icon }) {
   return (
@@ -147,16 +178,22 @@ function InfoRow({ label, value, icon }) {
   );
 }
 
-function EconomiCard({ label, value, sub, color }) {
+function EconomiCard({ label, value, total, color }) {
+  // Hitung persentase bar secara otomatis
+  const percentage = (parseInt(value) / (parseInt(total) || 1)) * 100 || 0;
+
   return (
     <div className="p-6 bg-white border border-gray-100 shadow-lg rounded-[24px] hover:shadow-xl transition-all group">
       <p className="mb-4 text-sm font-medium text-gray-500">{label}</p>
       <div className="flex items-end gap-2">
         <span className="text-4xl font-black text-gray-900">{value}</span>
-        <span className="mb-1 text-gray-400">{sub}</span>
+        <span className="mb-1 text-gray-400">Siswa</span>
       </div>
       <div className="mt-4 w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-        <div className={`h-full ${color} transition-all duration-1000 group-hover:opacity-80`} style={{ width: `${(value/156)*100}%` }}></div>
+        <div 
+          className={`h-full ${color} transition-all duration-1000 group-hover:opacity-80`} 
+          style={{ width: `${percentage}%` }}
+        ></div>
       </div>
     </div>
   );

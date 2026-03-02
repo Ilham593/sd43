@@ -1,103 +1,118 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { HiUserCircle, HiBadgeCheck, HiStar, HiUserGroup, HiBriefcase } from "react-icons/hi";
 
+// Mengambil URL API dari Environment Variable Vercel
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 export default function Guru() {
-  const tenagaPendidik = [
-    { nama: "Sunisti, S.Pd", jabatan: "Kepala Sekolah", status: "PNS" },
-    { nama: "Ansori, S.Pd", jabatan: "Guru Kelas", status: "PNS" },
-    { nama: "Herlina, S.Pd", jabatan: "Guru Kelas", status: "PNS" },
-    { nama: "Ita Riani, S.Pd", jabatan: "Guru Kelas", status: "PNS" },
-    { nama: "Khairunnisa, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
-    { nama: "Kiki Riski Kelana Putra, S.Pd", jabatan: "Guru Penjasorkes", status: "PPPK" },
-    { nama: "M. Nurkholil, S.Pd.I", jabatan: "Guru Agama Islam", status: "PPPK" },
-    { nama: "Mei Tri Hastuti, S.Pd", jabatan: "Guru Bahasa Inggris", status: "Honor" },
-    { nama: "Parisa Purnama Sari, S.Pd", jabatan: "Guru Kelas", status: "Honor" },
-    { nama: "Rizki Tri Permatasari, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
-    { nama: "Siska Dewi, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
-    { nama: "Sukma Nerawati, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
-  ];
+  // Pastikan inisialisasi awal adalah array kosong []
+  const [dataGuru, setDataGuru] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const tenagaKependidikan = [
-    { nama: "Nersih, S.Pt", jabatan: "Tenaga Administrasi Sekolah", status: "Honor" },
-    { nama: "Kalaluddin", jabatan: "Penjaga Sekolah", status: "Honor" },
-  ];
+  useEffect(() => {
+    const fetchGuru = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/guru`);
+        // Proteksi: Jika res.data bukan array, kita paksa jadi array
+        const validatedData = Array.isArray(res.data) ? res.data : [];
+        setDataGuru(validatedData);
+      } catch (err) {
+        console.error("Gagal memuat data guru:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGuru();
+  }, []);
 
-  // Memisahkan Kepala Sekolah untuk tampilan spesial
-  const kepalaSekolah = tenagaPendidik.find(g => g.jabatan === "Kepala Sekolah");
-  const guruLainnya = tenagaPendidik.filter(g => g.jabatan !== "Kepala Sekolah");
+  // --- LOGIKA FILTER AMAN ---
+  // Kita pastikan dataGuru selalu diperlakukan sebagai array dengan fallback []
+  const safeData = Array.isArray(dataGuru) ? dataGuru : [];
+  
+  const kepalaSekolah = safeData.find(g => g.jabatan === "Kepala Sekolah");
+  const tenagaPendidik = safeData.filter(g => g.kategori === "Pendidik" && g.jabatan !== "Kepala Sekolah");
+  const tenagaKependidikan = safeData.filter(g => g.kategori === "Kependidikan");
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="w-12 h-12 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="pb-20 space-y-20">
+    <div className="pb-20 space-y-20 duration-700 animate-in fade-in">
       
       {/* HEADER SECTION */}
-      <section className="max-w-3xl px-4 mx-auto space-y-4 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold tracking-widest uppercase border border-blue-100">
+      <section className="max-w-3xl px-4 py-10 mx-auto space-y-4 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase border border-blue-100">
           <HiUserGroup size={16} /> Profil Pendidik
         </div>
-        <h1 className="text-4xl font-black tracking-tight text-gray-900 sm:text-5xl">
+        <h1 className="text-4xl font-black text-gray-900 sm:text-5xl">
           Pendidik & Tenaga <br />
           <span className="text-blue-600">Kependidikan</span>
         </h1>
-        <p className="text-lg leading-relaxed text-gray-500">
-          Mengenal lebih dekat para penggerak pendidikan di <span className="font-bold text-gray-800">SDN 43 Kota Bengkulu</span> yang berdedikasi tinggi.
-        </p>
       </section>
 
-      {/* KEPALA SEKOLAH - FEATURED CARD */}
-      <section className="px-4">
-        <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[40px] shadow-2xl shadow-blue-200 text-white relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-64 h-64 translate-x-20 -translate-y-20 rounded-full bg-white/10 blur-3xl"></div>
-          
-          <div className="relative z-10 flex flex-col items-center gap-8 md:flex-row">
-            <div className="flex items-center justify-center w-32 h-32 border-2 shadow-inner sm:w-40 sm:h-40 bg-white/20 backdrop-blur-md rounded-3xl border-white/30">
-               <HiUserCircle size={100} className="text-white/80" />
-            </div>
-            <div className="space-y-3 text-center md:text-left">
-               <div className="flex items-center justify-center md:justify-start gap-2 text-yellow-300 font-bold text-xs uppercase tracking-[0.2em]">
+      {/* KEPALA SEKOLAH */}
+      {kepalaSekolah && (
+        <section className="px-4">
+          <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[40px] text-white relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-64 h-64 translate-x-32 -translate-y-32 rounded-full bg-white/10 blur-3xl"></div>
+            <div className="relative z-10 flex flex-col items-center gap-8 md:flex-row">
+              <div className="flex items-center justify-center w-32 h-32 border md:w-40 md:h-40 bg-white/20 backdrop-blur-md rounded-3xl border-white/30">
+                <HiUserCircle size={100} className="text-white/80" />
+              </div>
+              <div className="space-y-3 text-center md:text-left">
+                <div className="flex items-center justify-center gap-2 text-xs font-bold tracking-widest text-yellow-300 uppercase md:justify-start">
                   <HiStar /> Pimpinan Sekolah
-               </div>
-               <h2 className="text-3xl font-black sm:text-4xl">{kepalaSekolah.nama}</h2>
-               <p className="text-lg font-medium text-blue-100">{kepalaSekolah.jabatan}</p>
-               <span className="inline-block px-4 py-1 text-xs font-bold text-blue-700 bg-white rounded-full">
+                </div>
+                <h2 className="text-3xl font-black sm:text-4xl">{kepalaSekolah.nama}</h2>
+                <p className="text-lg font-medium text-blue-100">{kepalaSekolah.jabatan}</p>
+                <span className="inline-block px-4 py-1 text-xs font-bold text-blue-700 bg-white rounded-full">
                   Status: {kepalaSekolah.status}
-               </span>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* DAFTAR GURU LAINNYA */}
-      <section className="px-4 space-y-10">
-        <div className="flex items-center gap-3 pb-4 mx-auto border-b border-gray-100 max-w-7xl">
-           <HiBadgeCheck size={32} className="text-blue-600" />
+      {/* TENAGA PENDIDIK */}
+      <section className="px-4 mx-auto space-y-10 max-w-7xl">
+        <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
+           <div className="p-2 text-blue-600 bg-blue-50 rounded-xl"><HiBadgeCheck size={32} /></div>
            <h2 className="text-2xl font-bold text-gray-900">Tenaga Pendidik</h2>
         </div>
-
-        <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl">
-          {guruLainnya.map((guru, index) => (
-            <StaffCard key={index} data={guru} />
-          ))}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {tenagaPendidik.length > 0 ? (
+            tenagaPendidik.map((guru) => <StaffCard key={guru._id} data={guru} />)
+          ) : (
+            <p className="italic text-gray-400">Belum ada data tenaga pendidik.</p>
+          )}
         </div>
       </section>
 
       {/* TENAGA KEPENDIDIKAN */}
-      <section className="px-4 space-y-10">
-        <div className="flex items-center gap-3 pb-4 mx-auto border-b border-gray-100 max-w-7xl">
-           <HiBriefcase size={32} className="text-indigo-600" />
+      <section className="px-4 mx-auto space-y-10 max-w-7xl">
+        <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
+           <div className="p-2 text-indigo-600 bg-indigo-50 rounded-xl"><HiBriefcase size={32} /></div>
            <h2 className="text-2xl font-bold text-gray-900">Tenaga Kependidikan</h2>
         </div>
-
-        <div className="grid grid-cols-1 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3 max-w-7xl">
-          {tenagaKependidikan.map((staff, index) => (
-            <StaffCard key={index} data={staff} isStaff={true} />
-          ))}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {tenagaKependidikan.length > 0 ? (
+            tenagaKependidikan.map((staff) => <StaffCard key={staff._id} data={staff} isStaff={true} />)
+          ) : (
+            <p className="italic text-gray-400">Belum ada data tenaga kependidikan.</p>
+          )}
         </div>
       </section>
-
     </div>
   );
 }
 
-// Sub-komponen Card agar kode bersih
 function StaffCard({ data, isStaff = false }) {
   const statusStyles = {
     PNS: "bg-green-50 text-green-700 border-green-100",
@@ -106,23 +121,16 @@ function StaffCard({ data, isStaff = false }) {
   };
 
   return (
-    <div className="p-6 transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-xl hover:-translate-y-2 group">
+    <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-[32px] hover:shadow-xl hover:-translate-y-2 transition-all group">
       <div className="flex flex-col items-center space-y-4 text-center">
-        {/* Avatar Placeholder */}
-        <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-inner group-hover:scale-110 transition-transform ${isStaff ? 'bg-indigo-50 text-indigo-600' : 'bg-blue-50 text-blue-600'}`}>
-          {data.nama.charAt(0)}
+        <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold transition-transform group-hover:scale-110 ${isStaff ? 'bg-indigo-50 text-indigo-600' : 'bg-blue-50 text-blue-600'}`}>
+          {data.nama ? data.nama.charAt(0) : "?"}
         </div>
-        
         <div className="space-y-1">
-          <h3 className="text-base font-bold leading-tight text-gray-900 transition-colors group-hover:text-blue-600">
-            {data.nama}
-          </h3>
-          <p className="text-xs font-medium tracking-wide text-gray-500 uppercase">
-            {data.jabatan}
-          </p>
+          <h3 className="text-base font-bold text-gray-900 transition-colors group-hover:text-blue-600">{data.nama}</h3>
+          <p className="text-xs font-medium text-gray-500 uppercase">{data.jabatan}</p>
         </div>
-
-        <span className={`px-4 py-1 text-[10px] font-black rounded-full border uppercase tracking-widest ${statusStyles[data.status] || "bg-gray-50"}`}>
+        <span className={`px-4 py-1 text-[10px] font-black rounded-full border uppercase tracking-widest ${statusStyles[data.status] || "bg-gray-50 text-gray-600"}`}>
           {data.status}
         </span>
       </div>
