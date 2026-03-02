@@ -39,7 +39,7 @@ export default function Footer() {
               <a href="#" className="p-2 transition-all bg-gray-900 rounded-full hover:bg-blue-600 hover:text-white">
                 <FaFacebook size={18} />
               </a>
-              <a href="#" className="p-2 transition-all bg-gray-900 rounded-full hover:bg-pink-600 hover:text-white">
+              <a href="https://www.instagram.com/sdn43kotabengkulu/" className="p-2 transition-all bg-gray-900 rounded-full hover:bg-pink-600 hover:text-white">
                 <FaInstagram size={18} />
               </a>
               <a href="#" className="p-2 transition-all bg-gray-900 rounded-full hover:bg-red-600 hover:text-white">
