@@ -1,43 +1,58 @@
 import { Link } from "react-router-dom";
+import { 
+  HiUserGroup, 
+  HiAcademicCap, 
+  HiOfficeBuilding, 
+  HiBadgeCheck, 
+  HiArrowRight, 
+  HiExternalLink 
+} from "react-icons/hi";
 
 function Home() {
   return (
-    <div className="space-y-16 sm:space-y-24">
+    <div className="pb-20 space-y-16 sm:space-y-24">
+      
       {/* HERO SECTION */}
-      <section className="relative min-h-[70vh] sm:min-h-[75vh] flex items-center justify-center text-center text-white">
-        {/* Background */}
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-b-[40px] sm:rounded-b-[80px]">
+        {/* Background Image & Overlay */}
         <div className="absolute inset-0">
           <img
-            src="/images/hero.jpg"
+            src="https://images.unsplash.com/photo-1523050853063-bd80e27433fb?auto=format&fit=crop&q=80&w=1200"
             alt="SD Negeri 43 Kota Bengkulu"
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full scale-105 animate-soft-zoom"
           />
-          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-blue-900/40"></div>
         </div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-3xl px-4 space-y-5 sm:px-6 sm:space-y-6">
-          <h1 className="text-2xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            SD Negeri 43 Kota Bengkulu
+        <div className="relative z-10 max-w-4xl px-6 space-y-8 text-center">
+          <div className="inline-block px-4 py-1 mb-4 text-xs font-bold tracking-widest text-blue-400 uppercase border rounded-full bg-blue-500/10 backdrop-blur-md border-blue-400/30">
+            NPSN: 10702462
+          </div>
+          
+          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl lg:text-7xl">
+            SD Negeri 43 <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+              Kota Bengkulu
+            </span>
           </h1>
 
-          <p className="text-sm text-gray-200 sm:text-base">
-            Sekolah Dasar Negeri yang berkomitmen membangun generasi unggul
-            melalui pendidikan berkualitas, berkarakter, dan lingkungan belajar
-            yang kondusif.
+          <p className="max-w-2xl mx-auto text-lg leading-relaxed text-gray-200 sm:text-xl">
+            Membangun pondasi masa depan yang kuat melalui pendidikan yang inovatif, 
+            berkarakter, dan lingkungan belajar yang menginspirasi.
           </p>
 
-          <div className="flex flex-col justify-center gap-4 pt-2 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row">
             <Link
               to="/profil"
-              className="px-6 py-3 transition bg-blue-600 shadow rounded-xl hover:bg-blue-700"
+              className="flex items-center gap-2 px-8 py-4 font-bold text-white transition-all bg-blue-600 shadow-lg group rounded-2xl shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1"
             >
-              Profil Sekolah
+              Profil Sekolah <HiArrowRight className="transition-transform group-hover:translate-x-1" />
             </Link>
 
             <Link
               to="/kontak"
-              className="px-6 py-3 text-gray-800 transition bg-white shadow rounded-xl hover:bg-gray-200"
+              className="px-8 py-4 font-bold text-white transition-all border shadow-xl bg-white/10 backdrop-blur-md border-white/30 rounded-2xl hover:bg-white hover:text-blue-900"
             >
               Hubungi Kami
             </Link>
@@ -45,30 +60,37 @@ function Home() {
         </div>
       </section>
 
-      {/* STATISTIK */}
-      <section className="grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-<StatCard title="Total Siswa" value="156" icon="👥" />
-<StatCard title="Tenaga Pendidik" value="14" icon="👨‍🏫" /> 
-<StatCard title="Rombongan Belajar" value="7" icon="🏫" />
-<StatCard title="Akreditasi" value="B" icon="📜" /> 
+      {/* STATISTIK SECTION */}
+      <section className="px-4 mx-auto max-w-7xl">
+        <div className="relative z-20 grid grid-cols-2 gap-4 -mt-24 sm:gap-6 lg:grid-cols-4">
+          <StatCard title="Total Siswa" value="156" icon={<HiUserGroup />} color="blue" />
+          <StatCard title="Tenaga Pendidik" value="14" icon={<HiAcademicCap />} color="purple" /> 
+          <StatCard title="Rombongan Belajar" value="7" icon={<HiOfficeBuilding />} color="orange" />
+          <StatCard title="Akreditasi" value="B" icon={<HiBadgeCheck />} color="green" /> 
+        </div>
       </section>
 
-      {/* PREVIEW */}
-      <section className="space-y-8 sm:space-y-10">
-        <h2 className="text-xl font-semibold text-center sm:text-2xl">
-          Informasi Sekolah
-        </h2>
+      {/* PREVIEW SECTION */}
+      <section className="px-4 mx-auto space-y-12 max-w-7xl">
+        <div className="space-y-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            Informasi Sekolah
+          </h2>
+          <div className="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+        </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <InfoCard
             title="Struktur Rombongan Belajar"
-            desc="Terdiri dari 7 rombongan belajar dengan distribusi siswa yang merata."
+            desc="Terdiri dari 7 rombongan belajar dengan kurikulum terbaru untuk memastikan distribusi ilmu yang merata ke setiap siswa."
             link="/rombongan-belajar"
+            img="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600"
           />
           <InfoCard
             title="Fasilitas & Prasarana"
-            desc="Memiliki 17 unit fasilitas penunjang kegiatan belajar mengajar."
+            desc="Kami menyediakan 17 unit fasilitas lengkap mulai dari ruang kelas yang nyaman hingga area olahraga yang mendukung kreativitas."
             link="/fasilitas"
+            img="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=600"
           />
         </div>
       </section>
@@ -76,26 +98,41 @@ function Home() {
   );
 }
 
-function StatCard({ title, value }) {
+function StatCard({ title, value, icon, color }) {
+  const colors = {
+    blue: "text-blue-600 bg-blue-50",
+    purple: "text-purple-600 bg-purple-50",
+    orange: "text-orange-600 bg-orange-50",
+    green: "text-green-600 bg-green-50",
+  };
+
   return (
-    <div className="p-5 text-center transition bg-white border shadow-sm rounded-2xl sm:p-6 hover:shadow-lg hover:-translate-y-1">
-      <h3 className="mb-2 text-xs text-gray-500 sm:text-sm">{title}</h3>
-      <p className="text-2xl font-bold text-blue-600 sm:text-3xl">{value}</p>
+    <div className="p-6 text-center transition-all bg-white border border-gray-100 shadow-xl rounded-3xl hover:shadow-2xl hover:-translate-y-2 group">
+      <div className={`w-12 h-12 mx-auto mb-4 rounded-2xl flex items-center justify-center text-2xl transition-transform group-hover:scale-110 ${colors[color]}`}>
+        {icon}
+      </div>
+      <p className="mb-1 text-3xl font-black text-gray-900 sm:text-4xl">{value}</p>
+      <h3 className="text-xs font-bold tracking-widest text-gray-500 uppercase">{title}</h3>
     </div>
   );
 }
 
-function InfoCard({ title, desc, link }) {
+function InfoCard({ title, desc, link, img }) {
   return (
-    <div className="p-5 transition bg-white border shadow-sm rounded-2xl sm:p-6 hover:shadow-lg hover:-translate-y-1">
-      <h3 className="mb-3 text-base font-semibold sm:text-lg">{title}</h3>
-      <p className="mb-4 text-sm leading-relaxed text-gray-600">{desc}</p>
-      <Link
-        to={link}
-        className="text-sm font-medium text-blue-600 hover:underline"
-      >
-        Selengkapnya →
-      </Link>
+    <div className="group overflow-hidden bg-white border border-gray-100 shadow-lg rounded-[32px] transition-all hover:shadow-2xl">
+      <div className="overflow-hidden aspect-video">
+        <img src={img} alt={title} className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" />
+      </div>
+      <div className="p-8">
+        <h3 className="mb-3 text-xl font-bold text-gray-900 transition-colors group-hover:text-blue-600">{title}</h3>
+        <p className="mb-6 text-sm leading-relaxed text-gray-600">{desc}</p>
+        <Link
+          to={link}
+          className="inline-flex items-center gap-2 font-bold text-blue-600 transition-all hover:gap-3"
+        >
+          Lihat Detail <HiExternalLink />
+        </Link>
+      </div>
     </div>
   );
 }
