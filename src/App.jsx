@@ -19,7 +19,7 @@ function App() {
         <Route path="/galeri" element={<Galeri />} />
         <Route path="/kontak" element={<Kontak />} />
         <Route path="/guru" element={<Guru />} />
-        <Route path="/admin-rahasia-43" element={<Admin />} />
+        <Route path="/admin" element={<Admin />} />
       </Route>
     </Routes>
   )
