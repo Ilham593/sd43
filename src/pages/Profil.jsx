@@ -56,8 +56,8 @@ function Profil() {
             Profil Sekolah
           </h1>
           <p className="max-w-2xl text-sm leading-relaxed text-blue-100 sm:text-lg">
-            SD Negeri 43 Kota Bengkulu berkomitmen menerapkan <span className="font-bold text-white underline decoration-yellow-400">Kurikulum Merdeka</span> 
-            dengan lingkungan belajar yang inklusif dan fasilitas yang mendukung kreativitas siswa.
+            SD Negeri 43 Kota Bengkulu berkomitmen menerapkan <span className="font-bold text-white underline decoration-yellow-400">Kurikulum Merdeka </span> 
+             dengan lingkungan belajar yang inklusif dan fasilitas yang mendukung kreativitas siswa.
           </p>
         </div>
       </section>

@@ -9,7 +9,7 @@ import {
   HiArrowRight,
   HiExternalLink,
 } from "react-icons/hi";
-
+import hero from "../assets/images/hero.jpeg";
 function Home() {
   // 3. Setup state untuk menampung data dari MongoDB
   const [stats, setStats] = useState({
@@ -41,7 +41,7 @@ function Home() {
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden rounded-b-[40px] sm:rounded-b-[80px]">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1523050853063-bd80e27433fb?auto=format&fit=crop&q=80&w=1200"
+            src={hero}
             alt="SD Negeri 43 Kota Bengkulu"
             className="object-cover w-full h-full scale-105 animate-soft-zoom"
           />
