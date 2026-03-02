@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Tambah useNavigate
 import { 
   HiMenuAlt3, 
   HiX, 
@@ -9,13 +9,15 @@ import {
   HiPhotograph, 
   HiPhone, 
   HiAcademicCap,
-  HiChevronRight
-} from "react-icons/hi"; // Menggunakan Heroicons untuk kesan clean
+  HiChevronRight,
+  HiLockClosed // Icon gembok untuk admin
+} from "react-icons/hi";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // Hook untuk pindah halaman secara manual
 
   // Efek ganti warna saat di-scroll
   useEffect(() => {
@@ -25,6 +27,20 @@ function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Fungsi Proteksi Admin
+  const handleAdminClick = (e) => {
+    e.preventDefault(); // Mencegah link pindah langsung
+    
+    const password = window.prompt("Masukkan Sandi Admin SDN 43:");
+    
+    if (password === "sdn43bkl123") {
+      setIsOpen(false); // Tutup menu mobile jika sedang terbuka
+      navigate("/admin"); // Redirect ke halaman admin
+    } else if (password !== null) {
+      alert("Sandi Salah! Akses Ditolak.");
+    }
+  };
 
   const navLinks = [
     { name: "Home", path: "/", icon: <HiHome /> },
@@ -63,7 +79,7 @@ function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <nav className="hidden gap-1 md:flex">
+          <nav className="items-center hidden gap-1 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -77,6 +93,15 @@ function Navbar() {
                 {link.name}
               </Link>
             ))}
+
+            {/* Tombol Admin Khusus (Desktop) */}
+            <button
+              onClick={handleAdminClick}
+              className="flex items-center gap-2 px-4 py-2 ml-2 text-sm font-bold text-white transition-all bg-gray-800 rounded-full hover:bg-black"
+            >
+              <HiLockClosed size={16} />
+              Admin
+            </button>
           </nav>
 
           {/* Mobile Toggle Button */}
@@ -89,7 +114,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu (Full Overlay Style) */}
+      {/* Mobile Menu */}
       <div 
         className={`fixed inset-x-0 bg-white border-b shadow-xl transition-all duration-300 md:hidden ${
           isOpen ? "top-[100%] opacity-100 visible" : "top-[110%] opacity-0 invisible"
@@ -110,6 +135,18 @@ function Navbar() {
               <HiChevronRight className="text-gray-300" />
             </Link>
           ))}
+
+          {/* Tombol Admin Khusus (Mobile) */}
+          <button
+            onClick={handleAdminClick}
+            className="flex items-center justify-between px-4 py-4 mt-4 text-base font-bold text-white transition-colors bg-gray-800 rounded-xl"
+          >
+            <div className="flex items-center gap-3">
+              <HiLockClosed />
+              Akses Admin
+            </div>
+            <HiChevronRight />
+          </button>
         </div>
       </div>
     </header>
