@@ -1,82 +1,69 @@
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="pt-16 pb-8 text-gray-300 bg-gray-900">
-      <div className="grid max-w-6xl gap-10 px-4 mx-auto md:grid-cols-3">
-        {/* Tentang */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-white">
-            SD Negeri 43 Kota Bengkulu
-          </h3>
-          <p className="text-sm leading-relaxed">
-            Sekolah dasar negeri yang berkomitmen menciptakan lingkungan belajar
-            yang aman, nyaman, dan berkualitas untuk membentuk generasi cerdas
-            dan berkarakter.
-          </p>
-        </div>
-
-        {/* Kontak */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-white">Kontak Kami</h3>
-
-          <div className="space-y-3 text-sm">
-            <div className="flex items-start gap-3">
-              <MapPin size={18} />
-              <span>
-                JL. Gunung Bungkuk, Tanah Patah, Dusun Besar, Kec. Ratu Agung,
-                Kota Bengkulu 38224
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Phone size={18} />
-              <span>0736343505</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Mail size={18} />
-              <span>sekolahkami43@gmail.com</span>
-            </div>
+    <footer className="mt-16 text-gray-300 bg-gray-900">
+      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          
+          {/* Kolom 1 */}
+          <div>
+            <h2 className="mb-4 text-lg font-semibold text-white sm:text-xl">
+              SD Negeri 43 Kota Bengkulu
+            </h2>
+            <p className="text-sm leading-relaxed">
+              Sekolah dasar negeri yang berkomitmen memberikan pendidikan 
+              berkualitas, berkarakter, dan berorientasi pada masa depan.
+            </p>
           </div>
-        </div>
 
-        {/* Navigasi */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-white">Navigasi</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <a href="/" className="hover:text-yellow-400">
-                Beranda
-              </a>
-            </li>
-            <li>
-              <a href="/profil" className="hover:text-yellow-400">
-                Profil
-              </a>
-            </li>
-            <li>
-              <a href="/guru" className="hover:text-yellow-400">
-                Guru
-              </a>
-            </li>
-            <li>
-              <a href="/akademik" className="hover:text-yellow-400">
-                Akademik
-              </a>
-            </li>
-            <li>
-              <a href="/kontak" className="hover:text-yellow-400">
-                Kontak
-              </a>
-            </li>
-          </ul>
+          {/* Kolom 2 */}
+          <div>
+            <h3 className="mb-4 text-lg font-semibold text-white">
+              Navigasi
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/" className="transition hover:text-white">Beranda</Link></li>
+              <li><Link to="/profil" className="transition hover:text-white">Profil</Link></li>
+              <li><Link to="/rombongan-belajar" className="transition hover:text-white">Rombel</Link></li>
+              <li><Link to="/fasilitas" className="transition hover:text-white">Fasilitas</Link></li>
+              <li><Link to="/galeri" className="transition hover:text-white">Galeri</Link></li>
+              <li><Link to="/kontak" className="transition hover:text-white">Kontak</Link></li>
+            </ul>
+          </div>
+
+          {/* Kolom 3 */}
+          <div>
+            <h3 className="mb-4 text-lg font-semibold text-white">
+              Kontak
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>Jl. Gunung Bungkuk, Kota Bengkulu</li>
+              <li>Telp: 0736-343505</li>
+              <li>Email: sekolahkami43@gmail.com</li>
+              <li>
+                <a
+                  href="https://sdn43bkl.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="break-all transition hover:text-white"
+                >
+                  https://sdn43bkl.vercel.app
+                </a>
+              </li>
+            </ul>
+          </div>
+
         </div>
       </div>
 
-      <div className="pt-6 mt-12 text-sm text-center text-gray-500 border-t border-gray-700">
-        © {new Date().getFullYear()} SD Negeri 43 Kota Bengkulu. All rights
-        reserved.
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-700">
+        <div className="px-4 py-4 mx-auto text-sm text-center text-gray-400 max-w-7xl sm:px-6 lg:px-8">
+          © {new Date().getFullYear()} SD Negeri 43 Kota Bengkulu. 
+          All rights reserved.
+        </div>
       </div>
     </footer>
   );

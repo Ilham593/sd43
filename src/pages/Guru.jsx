@@ -1,108 +1,117 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-
 export default function Guru() {
-  const [teachers, setTeachers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const ADMIN_PASSWORD = "sdn43bkl123";
+  const tenagaPendidik = [
+    { nama: "Sunisti, S.Pd", jabatan: "Kepala Sekolah", status: "PNS" },
+    { nama: "Ansori, S.Pd", jabatan: "Guru Kelas", status: "PNS" },
+    { nama: "Herlina, S.Pd", jabatan: "Guru Kelas", status: "PNS" },
+    { nama: "Ita Riani, S.Pd", jabatan: "Guru Kelas", status: "PNS" },
+    { nama: "Khairunnisa, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
+    {
+      nama: "Kiki Riski Kelana Putra, S.Pd",
+      jabatan: "Guru Penjasorkes",
+      status: "PPPK",
+    },
+    {
+      nama: "M. Nurkholil, S.Pd.I",
+      jabatan: "Guru Agama Islam",
+      status: "PPPK",
+    },
+    {
+      nama: "Mei Tri Hastuti, S.Pd",
+      jabatan: "Guru Bahasa Inggris",
+      status: "Honor",
+    },
+    {
+      nama: "Parisa Purnama Sari, S.Pd",
+      jabatan: "Guru Kelas",
+      status: "Honor",
+    },
+    {
+      nama: "Rizki Tri Permatasari, S.Pd",
+      jabatan: "Guru Kelas",
+      status: "PPPK",
+    },
+    { nama: "Siska Dewi, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
+    { nama: "Sukma Nerawati, S.Pd", jabatan: "Guru Kelas", status: "PPPK" },
+  ];
 
-  const API_BASE = (
-    import.meta.env.VITE_API_URL ??
-    "http://localhost:5000"
-  ).replace(/\/$/, "");
-
-  useEffect(() => {
-    const fetchTeachers = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/guru`);
-        const result = await res.json();
-
-        if (!result.success) {
-          throw new Error("Gagal mengambil data guru");
-        }
-
-        setTeachers(result.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTeachers();
-  }, [API_BASE]);
-
-  const goToAdmin = () => {
-    const input = window.prompt("Masukkan password admin untuk masuk:");
-    if (input === ADMIN_PASSWORD) {
-      navigate("/admin/guru");
-    } else {
-      alert("Password salah! Akses dibatalkan.");
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-lg font-semibold">Memuat data guru...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="font-semibold text-red-600">{error}</p>
-      </div>
-    );
-  }
+  const tenagaKependidikan = [
+    {
+      nama: "Nersih, S.Pt",
+      jabatan: "Tenaga Administrasi Sekolah",
+      status: "Honor",
+    },
+    { nama: "Kalaluddin", jabatan: "Penjaga Sekolah", status: "Honor" },
+  ];
 
   return (
-    <div className="bg-gray-50">
-      <section className="py-16 text-center text-white bg-blue-900">
-        <h1 className="text-4xl font-bold">Guru & Tenaga Pendidik</h1>
-        <p className="mt-4 text-gray-200">
+    <div className="py-8 space-y-12 sm:space-y-16 sm:py-12">
+      {/* Header */}
+      <div className="space-y-3 text-center">
+        <h1 className="text-2xl font-bold text-gray-800 sm:text-3xl lg:text-4xl">
+          Pendidik & Tenaga Kependidikan
+        </h1>
+        <p className="text-sm text-gray-600 sm:text-base">
           SD Negeri 43 Kota Bengkulu
         </p>
-        <button
-          onClick={goToAdmin}
-          className="px-6 py-2 mt-4 text-white bg-red-600 rounded hover:bg-red-700"
-        >
-          Masuk Admin Edit
-        </button>
-      </section>
+      </div>
 
-      <div className="max-w-6xl px-4 py-20 mx-auto">
-        <section>
-          <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {teachers.map((teacher) => (
-              <motion.div
-                key={teacher._id}
-                whileHover={{ y: -6 }}
-                className="p-6 text-center transition bg-white shadow-lg rounded-2xl hover:shadow-xl"
+      {/* Tenaga Pendidik */}
+      <div className="space-y-8">
+        <h2 className="text-xl font-semibold text-gray-800 sm:text-2xl">
+          Tenaga Pendidik
+        </h2>
+
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {tenagaPendidik.map((guru, index) => (
+            <div
+              key={index}
+              className="p-5 transition bg-white border shadow-sm rounded-2xl sm:p-6 hover:shadow-lg hover:-translate-y-1"
+            >
+              <h3 className="text-base font-semibold sm:text-lg">
+                {guru.nama}
+              </h3>
+              <p className="text-sm text-gray-600">{guru.jabatan}</p>
+
+              {/* Logika warna status yang lebih menarik */}
+              <span
+                className={`inline-block px-3 py-1 mt-3 text-xs rounded-full font-medium ${
+                  guru.status === "PNS"
+                    ? "bg-green-100 text-green-700"
+                    : guru.status === "PPPK"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-orange-100 text-orange-700"
+                }`}
               >
-                <h3 className="text-lg font-semibold text-blue-900">
-                  {teacher.nama}
-                </h3>
+                {guru.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-                <p className="mt-2 text-sm text-gray-600">
-                  {teacher.mapel}
-                </p>
+      {/* Tenaga Kependidikan */}
+      <div className="space-y-8">
+        <h2 className="text-xl font-semibold text-gray-800 sm:text-2xl">
+          Tenaga Kependidikan
+        </h2>
 
-                <p className="mt-3 text-xs text-gray-500">
-                  {teacher.noHp ? `No HP: ${teacher.noHp}` : "No HP: -"}
-                </p>
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {tenagaKependidikan.map((staff, index) => (
+            <div
+              key={index}
+              className="p-5 transition bg-white border shadow-sm rounded-2xl sm:p-6 hover:shadow-lg hover:-translate-y-1"
+            >
+              <h3 className="text-base font-semibold sm:text-lg">
+                {staff.nama}
+              </h3>
+              <p className="text-sm text-gray-600">{staff.jabatan}</p>
 
-                <p className="mt-1 text-xs text-gray-500">
-                  {teacher.alamat ? teacher.alamat : ""}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+              <span className="inline-block px-3 py-1 mt-3 text-xs text-blue-600 bg-blue-100 rounded-full">
+                {staff.status}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

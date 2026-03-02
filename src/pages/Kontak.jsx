@@ -1,72 +1,81 @@
-import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
-
 export default function Kontak() {
   return (
-    <div className="bg-gray-50">
-
-      {/* Header */}
-      <section className="py-16 text-center text-white bg-blue-900">
-        <h1 className="text-4xl font-bold">Kontak Kami</h1>
-        <p className="mt-4 text-gray-200">
-          Informasi resmi SD Negeri 43 Kota Bengkulu
+    <div className="py-8 space-y-12 sm:space-y-16 sm:py-12">
+      {/* Heading */}
+      <div className="space-y-3 text-center">
+        <h1 className="text-2xl font-bold text-gray-800 sm:text-3xl lg:text-4xl">
+          Hubungi Kami
+        </h1>
+        <p className="text-sm text-gray-600 sm:text-base">
+          Kami siap melayani informasi dan kebutuhan pendidikan Anda.
         </p>
-      </section>
+      </div>
 
-      <div className="grid max-w-6xl gap-16 px-4 py-20 mx-auto md:grid-cols-2">
-
-        {/* Informasi Kontak */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
-          <h2 className="text-3xl font-bold text-blue-900">
-            Informasi Kontak
+      {/* Content Grid */}
+      <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-2">
+        {/* Informasi */}
+        <div className="p-6 transition bg-white border shadow-sm rounded-2xl sm:p-8 hover:shadow-lg">
+          <h2 className="mb-6 text-lg font-semibold text-gray-800 sm:text-2xl">
+            Informasi Sekolah
           </h2>
 
-          <div className="space-y-6 text-gray-700">
+          <div className="space-y-4 text-sm text-gray-700 sm:text-base">
+            <div>
+              <p className="font-semibold">Nama Sekolah</p>
+              <p>SD Negeri 43 Kota Bengkulu</p>
+            </div>
 
-            <div className="flex items-start gap-4">
-              <MapPin className="text-yellow-500" size={24} />
+            <div>
+              <p className="font-semibold">Alamat</p>
               <p>
-                JL. Gunung Bungkuk, Tanah Patah, Dusun Besar,  
-                Kec. Ratu Agung, Kota Bengkulu 38224
+                Jl. Gunung Bungkuk, RT 7 / RW 5 <br />
+                Kel. Tanah Patah, Kec. Ratu Agung <br />
+                Kota Bengkulu, Prov. Bengkulu 38224
               </p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <Phone className="text-yellow-500" size={24} />
-              <p>0736343505</p>
+            <div>
+              <p className="font-semibold">Telepon</p>
+              <p>0736-343505</p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <Mail className="text-yellow-500" size={24} />
-              <p>sekolahkami43@gmail.com</p>
+            <div>
+              <p className="font-semibold">Email</p>
+              <p className="break-all">sekolahkami43@gmail.com</p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <Clock className="text-yellow-500" size={24} />
-              <p>Senin - Jumat, 07.00 - 14.00 WIB</p>
+            <div>
+              <p className="font-semibold">Website Resmi</p>
+              <a
+                href="https://sdn43bkl.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 break-all hover:underline"
+              >
+                https://sdn43bkl.vercel.app
+              </a>
             </div>
 
+            <div>
+              <p className="font-semibold">Waktu Penyelenggaraan</p>
+              <p>Pagi / 5 Hari Sekolah</p>
+            </div>
           </div>
+        </div>
 
-          {/* Google Maps Embed */}
-          <div className="mt-10 overflow-hidden shadow-lg rounded-xl">
-            <iframe
-              title="Lokasi Sekolah"
-              src="https://www.google.com/maps?q=JL.%20Gunung%20Bungkuk%20Tanah%20Patah%20Bengkulu&output=embed"
-              width="100%"
-              height="250"
-              loading="lazy"
-              className="border-0"
-            ></iframe>
-          </div>
-        </motion.div>
-
+        {/* Maps */}
+        <div className="overflow-hidden border shadow-sm rounded-2xl">
+          <iframe
+            title="Lokasi SDN 43 Kota Bengkulu"
+            // Menggunakan koordinat real dari data: -3.8058, 102.2848
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.0!2d102.2848!3d-3.8058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwNDgnMjAuOSJTIDEwMsKwMTcnMDUuMyJF!5e0!3m2!1sid!2sid!4v1700000000000"
+            className="w-full h-[300px] sm:h-[350px] lg:h-full min-h-[300px]"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
       </div>
     </div>
   );
