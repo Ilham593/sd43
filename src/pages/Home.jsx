@@ -10,6 +10,8 @@ import {
   HiExternalLink,
 } from "react-icons/hi";
 import hero from "../assets/images/hero.jpeg";
+import perpustakaan from "../assets/fasilitas/perpus.jpeg";
+import kelas from "../assets/fasilitas/kelas.jpeg";
 function Home() {
   // 3. Setup state untuk menampung data dari MongoDB
   const [stats, setStats] = useState({
@@ -128,13 +130,13 @@ function Home() {
             title="Struktur Rombongan Belajar"
             desc={`Terdiri dari ${stats.rombelCount} rombongan belajar dengan kurikulum terbaru untuk memastikan distribusi ilmu yang merata ke setiap siswa.`}
             link="/rombongan-belajar"
-            img="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600"
+            img={perpustakaan}
           />
           <InfoCard
             title="Fasilitas & Prasarana"
             desc="Kami menyediakan 17 unit fasilitas lengkap mulai dari ruang kelas yang nyaman hingga area olahraga yang mendukung kreativitas."
             link="/fasilitas"
-            img="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=600"
+            img={kelas}
           />
         </div>
       </section>

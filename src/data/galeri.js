@@ -1,30 +1,15 @@
-import test from "../assets/galeri/test.jpg"
-
+import olahraga from "../assets/galeri/olahraga.jpeg"
+import pkl from "../assets/galeri/pkl.jpeg"
 const galeriData = [
   {
     id: 1,
-    judul: "Upacara Bendera",
-    gambar: test,
+    judul: "penjas",
+    gambar: olahraga,
   },
   {
     id: 2,
-    judul: "Lomba 17 Agustus",
-    gambar: test,
-  },
-  {
-    id: 3,
-    judul: "Kegiatan Belajar",
-    gambar: test,
-  },
-  {
-    id: 4,
-    judul: "Ekstrakurikuler Pramuka",
-    gambar: test,
-  },
-  {
-    id: 5,
-    judul: "Senam Pagi Bersama",
-    gambar: test,
+    judul: "program kerja lapangan UMB",
+    gambar: pkl,
   },
 ]
 
